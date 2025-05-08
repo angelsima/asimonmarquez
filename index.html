@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Proyectos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .projects-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: center;
+            max-width: 1200px;
+            margin-bottom: 3rem;
+        }
+
+        .project-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            width: 350px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .project-title {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+
+        .project-description {
+            color: #666;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #2980b9;
+        }
+
+        .instagram-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #333;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: color 0.3s ease;
+        }
+
+        .instagram-link:hover {
+            color: #E1306C;
+        }
+
+        .instagram-icon {
+            width: 24px;
+            height: 24px;
+        }
+
+        @media (max-width: 768px) {
+            .project-card {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Mis Proyectos</h1>
+    </div>
+
+    <div class="projects-container">
+        <!-- Proyecto 1 -->
+        <div class="project-card">
+            <h2 class="project-title">Refránkenstein</h2>
+            <p class="project-description">
+                Un proyecto innovador que combina refranes clásicos con creatividad moderna, 
+                dando vida a nuevas expresiones llenas de ingenio y sabiduría contemporánea.
+            </p>
+            <a href="https://angelsima.github.io/Refrankenstein/index.html" class="btn" target="_blank">Visitar sitio</a>
+        </div>
+
+        <!-- Proyecto 2 -->
+        <div class="project-card">
+            <h2 class="project-title">Tantoshigostanto</h2>
+            <p class="project-description">
+                Una plataforma única donde explorar la relación entre objetos cotidianos 
+                y conceptos abstractos, creando conexiones inesperadas y reveladoras.
+            </p>
+            <a href="https://angelsima.github.io/tantoshigostanto/blog.html" class="btn" target="_blank">Visitar sitio</a>
+        </div>
+    </div>
+
+    <!-- Enlace Instagram -->
+    <a href="TU_ENLACE_INSTAGRAM" class="instagram-link" target="_blank">
+        <svg class="instagram-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path fill="currentColor" d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4c0 3.2-2.6 5.8-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8C2 4.6 4.6 2 7.8 2zm-.2 2C5.6 4 4 5.6 4 7.6v8.8C4 18.4 5.6 20 7.6 20h8.8c2 0 3.6-1.6 3.6-3.6V7.6C20 5.6 18.4 4 16.4 4H7.6zm9.65 1.5a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5zM12 7c2.8 0 5 2.2 5 5s-2.2 5-5 5-5-2.2-5-5 2.2-5 5-5zm0 2c-1.7 0-3 1.3-3 3s1.3 3 3 3 3-1.3 3-3-1.3-3-3-3z"/>
+        </svg>
+        Sígueme en Instagram
+    </a>
+</body>
+</html>
