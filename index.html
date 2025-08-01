@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>La Pulpería</title>
+  <style>
+    :root {
+      --bg: #f2f0eb;
+      --accent: #d8a1c4;
+      --text: #222;
+      --nav-bg: #ffffffcc;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    header {
+      background: var(--nav-bg);
+      position: sticky;
+      top: 0;
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #ccc;
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+    }
+
+    nav a {
+      margin: 0 0.75rem;
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: var(--accent);
+    }
+
+    .logo {
+      font-weight: bold;
+      font-size: 1.3rem;
+      color: var(--accent);
+    }
+
+    main {
+      padding: 2rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    h2 {
+      font-size: 1.2rem;
+      font-weight: normal;
+      color: #666;
+    }
+
+    .intro {
+      margin-top: 2rem;
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">La Pulpería</div>
+    <nav>
+      <a href="index.html">Inicio</a>
+      <a href="escritura.html">Escritura</a>
+      <a href="digital.html">Digital</a>
+      <a href="permacultura.html">Permacultura</a>
+      <a href="artesania.html">Artesanía</a>
+      <a href="saberes.html">Saberes</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>La Pulpería</h1>
+    <h2>Una web de Ángel Simón Márquez</h2>
+    <div class="intro">
+      <p>
+        Tentáculos creativos que se mueven entre escritura, tecnología, tierra y manos.
+        Esta es una web cambiante, donde lo artesanal se mezcla con lo digital, lo íntimo con lo público, y lo práctico con lo inútil.
+      </p>
+      <p>
+        Puedes explorar mis proyectos, ideas y experimentos en las distintas secciones.
+        Algunas están más vivas que otras, como en todo pulpo.
+      </p>
+    </div>
+  </main>
+</body>
+</html>
