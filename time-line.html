@@ -131,6 +131,7 @@
 <body>
 
     <h1>Archivo Creativo</h1>
+    <p class="subtitle">Desde 1992 hasta hoy</p>
 
     <div class="timeline-container">
         
@@ -164,9 +165,10 @@
 
     <script>
         function toggleEvent(element) {
-                 document.querySelectorAll('.event').forEach(el => {
-                 if (el !== element) el.classList.remove('active');
-             });
+            // Descomenta lo siguiente si quieres que solo haya un evento abierto a la vez:
+            // document.querySelectorAll('.event').forEach(el => {
+            //     if (el !== element) el.classList.remove('active');
+            // });
             
             element.classList.toggle('active');
         }
