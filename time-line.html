@@ -19,7 +19,7 @@
             color: var(--text-main);
             font-family: -apple-system, "Segoe UI", Roboto, Helvetica, sans-serif;
             margin: 0;
-            padding: 80px 0;
+            padding: 0 0 100px 0; /* Ajustado para el menú superior */
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -27,63 +27,54 @@
             scroll-behavior: smooth;
         }
 
-        h1 { font-size: 32px; font-weight: 300; letter-spacing: 1px; margin-bottom: 10px; }
-        .subtitle { font-size: 16px; color: var(--text-secondary); margin-bottom: 60px; letter-spacing: 0.5px; }
+        h1 { font-size: 32px; font-weight: 300; letter-spacing: 1px; margin: 40px 0 10px; text-align: center; }
+        .subtitle { font-size: 16px; color: var(--text-secondary); margin-bottom: 60px; letter-spacing: 0.5px; text-align: center; }
 
+        /* Menú de Filtros Superior */
+        .filter-menu {
+            position: sticky;
+            top: 0;
+            background: rgba(252, 250, 247, 0.9);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 15px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            z-index: 100;
+            border-bottom: 1px solid var(--line-color);
+            box-sizing: border-box;
+        }
+
+        .filter-btn {
+            background: none;
+            border: none;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 8px 14px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn.active {
+            color: var(--text-main);
+            background: rgba(140, 140, 115, 0.15);
+            font-weight: 600;
+        }
+
+        /* Contenedor Línea del Tiempo */
         .timeline-container {
             position: relative;
             width: 100%;
-            max-width: 850px;
+            max-width: 800px;
+            padding: 0 20px;
+            box-sizing: border-box;
         }
-/* Menú de Filtros Superior */
-.filter-menu {
-    position: sticky;
-    top: 0;
-    background: rgba(252, 250, 247, 0.8); /* El mismo crema del fondo con transparencia */
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    padding: 20px;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    z-index: 100;
-    border-bottom: 1px solid var(--line-color);
-}
 
-.filter-btn {
-    background: none;
-    border: none;
-    font-size: 13px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: var(--text-secondary);
-    cursor: pointer;
-    padding: 8px 16px;
-    border-radius: 20px;
-    transition: all 0.3s ease;
-}
-
-.filter-btn.active {
-    color: var(--accent-color);
-    background: rgba(140, 140, 115, 0.1);
-}
-
-.filter-btn:hover {
-    color: var(--text-main);
-}
-
-/* Lógica de ocultar/mostrar */
-.event {
-    display: block; /* Por defecto visibles */
-    transition: transform 0.4s ease, opacity 0.4s ease;
-}
-
-/* Animación cuando algo se oculta */
-.hidden {
-    display: none !important;
-}
-        /* Línea central */
         .timeline-container::after {
             content: '';
             position: absolute;
@@ -94,28 +85,17 @@
             z-index: 1;
         }
 
-        /* Marcadores de Tiempo */
-        .year-marker {
+        /* Marcadores */
+        .year-marker, .month-marker {
             width: 100%; text-align: center;
-            font-size: 24px; font-weight: 200;
-            letter-spacing: 4px; margin: 80px 0 40px;
             position: relative; z-index: 2;
+            background-color: var(--bg-color); /* Para tapar la línea detrás del texto */
+            margin: 60px 0 30px;
+            transition: opacity 0.3s, display 0.3s;
         }
 
-        .month-marker {
-            position: relative; width: 100%; text-align: center;
-            font-size: 11px; text-transform: uppercase;
-            letter-spacing: 2px; color: var(--text-secondary);
-            margin: 40px 0; z-index: 2;
-        }
-
-        .month-marker::after {
-            content: ''; position: absolute;
-            width: 6px; height: 6px;
-            background: var(--line-color);
-            border-radius: 50%; left: 50%; top: 20px;
-            transform: translateX(-50%);
-        }
+        .year-marker { font-size: 24px; font-weight: 200; letter-spacing: 4px; }
+        .month-marker { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: var(--text-secondary); margin: 40px 0; }
 
         /* Eventos */
         .event {
@@ -125,13 +105,13 @@
             box-sizing: border-box;
             cursor: pointer;
             z-index: 2;
-            transition: opacity 0.3s;
+            transition: opacity 0.4s ease;
         }
 
         .thumbnail-circle {
             position: absolute;
             width: 40px; height: 40px;
-            background-color: var(--bg-color);
+            background-color: var(--card-bg);
             border: 1px solid var(--line-color);
             border-radius: 50%;
             z-index: 3; top: 24px;
@@ -144,53 +124,56 @@
         .left .thumbnail-circle { right: -20px; }
         .right .thumbnail-circle { left: -20px; }
 
-        .thumbnail-circle img {
-            width: 100%; height: 100%; object-fit: cover;
-            opacity: 0.7; transition: opacity 0.3s;
-        }
+        .thumbnail-circle img { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; }
 
-        /* Contenido */
         .content {
             background: var(--card-bg);
             border-radius: 12px;
             max-height: 0; overflow: hidden; opacity: 0;
             transition: all 0.6s cubic-bezier(0.2, 1, 0.3, 1);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
             border: 1px solid rgba(0,0,0,0.03);
         }
 
-        .event.active .content {
-            max-height: 1200px; opacity: 1;
-            padding: 30px; margin-top: 15px;
-        }
+        .event.active .content { max-height: 1200px; opacity: 1; padding: 25px; margin-top: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.03); }
+        .event.active .thumbnail-circle { border-color: var(--accent-color); transform: scale(1.1); }
+        .event h2 { margin: 0; font-size: 18px; font-weight: 400; }
 
-        .event.active .thumbnail-circle {
-            border-color: var(--accent-color);
-            transform: scale(1.15);
-            box-shadow: 0 0 0 6px rgba(140, 140, 115, 0.05);
-        }
+        .large-image, .large-video { width: 100%; border-radius: 6px; margin-top: 15px; display: block; }
+        .hidden { display: none !important; }
 
-        .event.active .thumbnail-circle img { opacity: 1; }
-        .event h2 { margin: 0; font-size: 19px; font-weight: 400; transition: color 0.3s; }
-        .event:hover h2 { color: var(--accent-color); }
-
-        .large-image, .large-video {
-            width: 100%; border-radius: 8px;
-            margin-top: 20px; display: block;
-        }
-
+        /* AJUSTE MÓVIL (CORREGIDO) */
         @media (max-width: 600px) {
-            .timeline-container::after { left: 20px; }
-            .event { width: 100%; text-align: left !important; padding-left: 50px; }
-            .left .thumbnail-circle, .right .thumbnail-circle { left: 0px; }
-            .year-marker, .month-marker { text-align: left; padding-left: 45px; }
-            .month-marker::after { left: 20px; }
-            .filter-menu {flex-wrap: wrap; padding: 10px; gap: 5px; }
-            .filter-btn {font-size: 11px;padding: 6px 10px;}
+            .timeline-container::after { left: 50%; }
+            
+            .event { 
+                width: 100% !important; 
+                left: 0 !important;
+                text-align: center !important; 
+                padding: 60px 15px 20px 15px !important; /* Espacio para el círculo arriba */
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .thumbnail-circle {
+                left: 50% !important;
+                right: auto !important;
+                transform: translateX(-50%) !important;
+                top: 10px !important;
+            }
+
+            .event.active .thumbnail-circle {
+                transform: translateX(-50%) scale(1.1) !important;
+            }
+
+            .content { text-align: left; width: 100%; }
+            .filter-menu { flex-wrap: wrap; padding: 10px; }
+            .filter-btn { font-size: 10px; padding: 5px 8px; }
         }
     </style>
 </head>
 <body>
+
 <nav class="filter-menu">
     <button class="filter-btn active" onclick="filterCategory('todos')">Todos</button>
     <button class="filter-btn" onclick="filterCategory('escritura')">Escritura</button>
@@ -198,67 +181,60 @@
     <button class="filter-btn" onclick="filterCategory('carpinteria')">Carpintería</button>
     <button class="filter-btn" onclick="filterCategory('escultura')">Escultura</button>
 </nav>
-    <h1>Archivo Creativo</h1>
-    <p class="subtitle">Una trayectoria visual</p>
 
-    <div class="timeline-container">
-        
-        <div class="year-marker">2026</div>
-        <div class="month-marker">Marzo</div>
+<h1>Archivo Creativo</h1>
+<p class="subtitle">1992 — 2026</p>
 
-        <div class="event right escultura" onclick="toggleEvent(this)">
-            <div class="thumbnail-circle"><img src="img/moai.jpg"></div>
-            <h2>Escultura Moai V2</h2>
-            <div class="content">
-                <p>Segunda versión del proyecto, refinando texturas y sombras.</p>
-                <img src="img/moai.jpg" class="large-image">
-            </div>
+<div class="timeline-container" id="timeline">
+    
+    <div class="year-marker">2026</div>
+    <div class="month-marker">Marzo</div>
+
+    <div class="event right escultura" onclick="toggleEvent(this)">
+        <div class="thumbnail-circle"><img src="img/moai.jpg"></div>
+        <h2>Escultura Moai V2</h2>
+        <div class="content">
+            <p>Refinando texturas y sombras.</p>
+            <img src="img/moai.jpg" class="large-image">
         </div>
-
-        <div class="event left dibujo" onclick="toggleEvent(this)">
-            <div class="thumbnail-circle"></div>
-            <h2>Bocetos de Paisaje</h2>
-            <div class="content">
-                <p>Exploración rápida de luz ambiental y atmósfera.</p>
-            </div>
-        </div>
-
-        <div class="month-marker">Enero</div>
-
-        <div class="event right" onclick="toggleEvent(this)">
-            <div class="thumbnail-circle">
-                <img src="img/miniatura-video.jpg" alt="Miniatura">
-            </div>
-            <h2>Cortometraje: "Sombras"</h2>
-            <div class="content">
-                <p>Experimento visual grabado al atardecer.</p>
-                <video controls playsinline class="large-video">
-                    <source src="img/video-proyecto.mp4" type="video/mp4">
-                </video>
-            </div>
-        </div>
-
-        <div class="year-marker">1992</div>
-        <div class="event left carpinteria" onclick="toggleEvent(this)">
-            <div class="thumbnail-circle"></div>
-            <h2>El Inicio</h2>
-            <div class="content">
-                <p>Donde todo comenzó: las primeras libretas de dibujo.</p>
-            </div>
-        </div>
-
     </div>
 
-    <script>
-        function toggleEvent(element) {
+    <div class="event left dibujo" onclick="toggleEvent(this)">
+        <div class="thumbnail-circle"></div>
+        <h2>Bocetos de Paisaje</h2>
+        <div class="content">
+            <p>Exploración rápida de luz ambiental.</p>
+        </div>
+    </div>
+
+    <div class="month-marker">Enero</div>
+
+    <div class="event right escritura" onclick="toggleEvent(this)">
+        <div class="thumbnail-circle"></div>
+        <h2>Relato corto</h2>
+        <div class="content">
+            <p>Escrito durante el invierno.</p>
+        </div>
+    </div>
+
+    <div class="year-marker">1992</div>
+    <div class="event left carpinteria" onclick="toggleEvent(this)">
+        <div class="thumbnail-circle"></div>
+        <h2>El Inicio</h2>
+        <div class="content">
+            <p>Primeras libretas de dibujo y madera.</p>
+        </div>
+    </div>
+
+</div>
+
+<script>
+function toggleEvent(element) {
     const isActive = element.classList.contains('active');
-    
-    // Cerramos todos y pausamos vídeos
     document.querySelectorAll('.event').forEach(el => {
         el.classList.remove('active');
         const v = el.querySelector('video'); if(v) v.pause();
     });
-
     if (!isActive) {
         element.classList.add('active');
         setTimeout(() => {
@@ -268,7 +244,7 @@
 }
 
 function filterCategory(category) {
-    // 1. Actualizar botones del menú
+    // 1. Botones
     document.querySelectorAll('.filter-btn').forEach(btn => {
         btn.classList.remove('active');
         if(btn.innerText.toLowerCase() === category || (category === 'todos' && btn.innerText === 'Todos')) {
@@ -276,19 +252,60 @@ function filterCategory(category) {
         }
     });
 
-    // 2. Filtrar eventos
+    // 2. Eventos
     document.querySelectorAll('.event').forEach(event => {
         if (category === 'todos' || event.classList.contains(category)) {
             event.classList.remove('hidden');
         } else {
             event.classList.add('hidden');
-            event.classList.remove('active'); // Cerrar si estaba abierto
+            event.classList.remove('active');
         }
     });
 
-    // 3. Opcional: Ocultar marcadores de mes/año vacíos
-    // (Esto es más avanzado, por ahora los dejaremos visibles para mantener la estructura)
+    // 3. Limpiar Marcadores vacíos
+    updateMarkers();
 }
-    </script>
+
+function updateMarkers() {
+    const container = document.getElementById('timeline');
+    const elements = Array.from(container.children);
+    
+    let lastYearMarker = null;
+    let lastMonthMarker = null;
+    let hasVisibleEventsInYear = false;
+    let hasVisibleEventsInMonth = false;
+
+    // Recorremos de abajo hacia arriba para saber si hay eventos visibles
+    for (let i = 0; i < elements.length; i++) {
+        const el = elements[i];
+        
+        if (el.classList.contains('year-marker')) {
+            // Antes de pasar al siguiente año, ocultamos el anterior si estaba vacío
+            checkAndHide(lastYearMarker, hasVisibleEventsInYear);
+            lastYearMarker = el;
+            hasVisibleEventsInYear = false; // Reset para el nuevo año
+        } 
+        else if (el.classList.contains('month-marker')) {
+            checkAndHide(lastMonthMarker, hasVisibleEventsInMonth);
+            lastMonthMarker = el;
+            hasVisibleEventsInMonth = false;
+        } 
+        else if (el.classList.contains('event') && !el.classList.contains('hidden')) {
+            hasVisibleEventsInYear = true;
+            hasVisibleEventsInMonth = true;
+        }
+    }
+    // Chequeo final para los últimos marcadores encontrados
+    checkAndHide(lastYearMarker, hasVisibleEventsInYear);
+    checkAndHide(lastMonthMarker, hasVisibleEventsInMonth);
+}
+
+function checkAndHide(marker, hasVisible) {
+    if (marker) {
+        if (hasVisible) marker.classList.remove('hidden');
+        else marker.classList.add('hidden');
+    }
+}
+</script>
 </body>
 </html>
