@@ -141,6 +141,59 @@
         .large-image, .large-video { width: 100%; border-radius: 6px; margin-top: 15px; display: block; }
         .hidden { display: none !important; }
 
+        /* Carrusel */
+.carousel-container {
+    position: relative;
+    width: 100%;
+    margin-top: 20px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #f0f0f0;
+}
+
+.carousel-track {
+    display: flex;
+    transition: transform 0.5s cubic-bezier(0.2, 1, 0.3, 1);
+    width: 100%;
+}
+
+.carousel-img {
+    min-width: 100%;
+    width: 100%;
+    display: block;
+    object-fit: cover;
+    max-height: 450px; /* Ajusta según prefieras */
+}
+
+/* Botones de navegación */
+.nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: none;
+    color: var(--text-main);
+    padding: 12px 16px;
+    cursor: pointer;
+    border-radius: 50%;
+    font-size: 14px;
+    opacity: 0; /* Ocultos por defecto */
+    transition: all 0.3s ease;
+    z-index: 5;
+}
+
+.carousel-container:hover .nav-btn {
+    opacity: 1; /* Aparecen al pasar el ratón */
+}
+
+.nav-btn:hover {
+    background: rgba(255, 255, 255, 0.8);
+}
+
+.prev { left: 10px; }
+.next { right: 10px; }
         /* AJUSTE MÓVIL (CORREGIDO) */
         @media (max-width: 600px) {
             .timeline-container::after { left: 50%; }
@@ -169,6 +222,7 @@
             .content { text-align: left; width: 100%; }
             .filter-menu { flex-wrap: wrap; padding: 10px; }
             .filter-btn { font-size: 10px; padding: 5px 8px; }
+            .nav-btn { opacity: 1; padding: 10px; }
         }
     </style>
 </head>
@@ -195,7 +249,15 @@
         <h2>Escultura Moai V2</h2>
         <div class="content">
             <p>Refinando texturas y sombras.</p>
-            <img src="img/moai.jpg" class="large-image">
+           <div class="carousel-container">
+            <div class="carousel-track">
+                <img src="img/moai.webp" class="carousel-img">
+                <img src="img/moai-2.webp" class="carousel-img">
+                <img src="img/moai-3.webp" class="carousel-img">
+            </div>
+            <button class="nav-btn prev" onclick="moveCarousel(event, this, -1)">&#10094;</button>
+            <button class="nav-btn next" onclick="moveCarousel(event, this, 1)">&#10095;</button>
+        </div>
         </div>
     </div>
 
@@ -316,6 +378,30 @@ function checkAndHide(marker, hasVisible) {
         if (hasVisible) marker.classList.remove('hidden');
         else marker.classList.add('hidden');
     }
+}
+    // Variable para rastrear la posición de cada carrusel
+const carouselStates = new Map();
+
+function moveCarousel(event, btn, direction) {
+    event.stopPropagation(); // Evita que la burbuja se cierre al pulsar la flecha
+    
+    const container = btn.parentElement;
+    const track = container.querySelector('.carousel-track');
+    const images = track.querySelectorAll('.carousel-img');
+    const totalImages = images.length;
+    
+    // Obtener o inicializar el índice actual de este carrusel específico
+    let currentIndex = carouselStates.get(track) || 0;
+    
+    currentIndex += direction;
+    
+    // Loop infinito
+    if (currentIndex >= totalImages) currentIndex = 0;
+    if (currentIndex < 0) currentIndex = totalImages - 1;
+    
+    // Guardar estado y aplicar movimiento
+    carouselStates.set(track, currentIndex);
+    track.style.transform = `translateX(-${currentIndex * 100}%)`;
 }
 </script>
 </body>
