@@ -3,15 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Archivo Creativo | 1992</title>
+    <title>Archivo Creativo | 1992 — 2026</title>
     <style>
         :root {
-            /* Paleta Orgánica y Serena */
-            --bg-color: #fcfaf7;       /* Blanco lino, muy relajante */
-            --line-color: #e5e0d8;     /* Arena suave para la línea */
-            --accent-color: #8c8c73;   /* Verde oliva grisáceo (sereno) */
-            --text-main: #3a3a3a;      /* Gris grafito suave, no negro */
-            --text-secondary: #a09d94; /* Gris arcilla para fechas */
+            --bg-color: #fcfaf7;
+            --line-color: #e5e0d8;
+            --accent-color: #8c8c73;
+            --text-main: #3a3a3a;
+            --text-secondary: #a09d94;
             --card-bg: #ffffff;
         }
 
@@ -20,27 +19,16 @@
             color: var(--text-main);
             font-family: -apple-system, "Segoe UI", Roboto, Helvetica, sans-serif;
             margin: 0;
-            padding: 100px 0;
+            padding: 80px 0;
             display: flex;
             flex-direction: column;
             align-items: center;
             -webkit-font-smoothing: antialiased;
+            scroll-behavior: smooth;
         }
 
-        h1 { 
-            font-size: 32px; 
-            font-weight: 300; /* Más ligero para dar aire */
-            letter-spacing: 1px;
-            margin-bottom: 10px; 
-            color: var(--text-main);
-        }
-
-        .subtitle { 
-            font-size: 16px; 
-            color: var(--text-secondary); 
-            margin-bottom: 80px;
-            letter-spacing: 0.5px;
-        }
+        h1 { font-size: 32px; font-weight: 300; letter-spacing: 1px; margin-bottom: 10px; }
+        .subtitle { font-size: 16px; color: var(--text-secondary); margin-bottom: 60px; letter-spacing: 0.5px; }
 
         .timeline-container {
             position: relative;
@@ -48,55 +36,41 @@
             max-width: 850px;
         }
 
-        /* Línea central muy sutil */
+        /* Línea central */
         .timeline-container::after {
             content: '';
             position: absolute;
-            width: 1px; /* Más fina aún */
+            width: 1px;
             background-color: var(--line-color);
-            top: 0;
-            bottom: 0;
-            left: 50%;
+            top: 0; bottom: 0; left: 50%;
             transform: translateX(-50%);
             z-index: 1;
         }
-/* Marcador de Año: Centrado y con aire */
-.year-marker {
-    width: 100%;
-    text-align: center;
-    font-size: 24px;
-    font-weight: 200;
-    color: var(--text-main);
-    letter-spacing: 4px;
-    margin: 60px 0 30px 0;
-    position: relative;
-    z-index: 2;
-}
 
-/* Marcador de Mes: Pequeño y sobre la línea */
-.month-marker {
-    position: relative;
-    width: 100%;
-    text-align: center;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    color: var(--text-secondary);
-    margin: 40px 0 20px 0;
-    z-index: 2;
-}
-        /* El círculo del mes (opcional, para que nazca de la línea) */
-.month-marker::after {
-    content: '';
-    position: absolute;
-    width: 6px;
-    height: 6px;
-    background: var(--line-color);
-    border-radius: 50%;
-    left: 50%;
-    top: 110%;
-    transform: translateX(-50%);
-}
+        /* Marcadores de Tiempo */
+        .year-marker {
+            width: 100%; text-align: center;
+            font-size: 24px; font-weight: 200;
+            letter-spacing: 4px; margin: 80px 0 40px;
+            position: relative; z-index: 2;
+        }
+
+        .month-marker {
+            position: relative; width: 100%; text-align: center;
+            font-size: 11px; text-transform: uppercase;
+            letter-spacing: 2px; color: var(--text-secondary);
+            margin: 40px 0; z-index: 2;
+        }
+
+        .month-marker::after {
+            content: ''; position: absolute;
+            width: 6px; height: 6px;
+            background: var(--line-color);
+            border-radius: 50%; left: 50%; top: 20px;
+            transform: translateX(-50%);
+        }
+
+        /* Eventos */
         .event {
             padding: 20px 60px;
             position: relative;
@@ -104,191 +78,140 @@
             box-sizing: border-box;
             cursor: pointer;
             z-index: 2;
-            margin-bottom: 10px;
+            transition: opacity 0.3s;
         }
 
-        /* Contenedor del Círculo/Miniatura */
         .thumbnail-circle {
             position: absolute;
-            width: 40px;
-            height: 40px;
+            width: 40px; height: 40px;
             background-color: var(--bg-color);
-            border: 1px solid var(--line-color); /* Borde fino */
+            border: 1px solid var(--line-color);
             border-radius: 50%;
-            z-index: 3;
-            top: 24px;
+            z-index: 3; top: 24px;
             overflow: hidden;
             transition: all 0.5s cubic-bezier(0.2, 1, 0.3, 1);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
-        }
-
-        .left .thumbnail-circle { right: -20px; }
-        .right .thumbnail-circle { left: -20px; }
-
-        .thumbnail-circle img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            opacity: 0.8; /* Ligeramente desaturada hasta que se pulsa */
-            transition: opacity 0.3s;
         }
 
         .left { left: 0; text-align: right; }
         .right { left: 50%; text-align: left; }
+        .left .thumbnail-circle { right: -20px; }
+        .right .thumbnail-circle { left: -20px; }
 
-        /* Contenido Expandible */
+        .thumbnail-circle img {
+            width: 100%; height: 100%; object-fit: cover;
+            opacity: 0.7; transition: opacity 0.3s;
+        }
+
+        /* Contenido */
         .content {
             background: var(--card-bg);
-            padding: 0 20px;
             border-radius: 12px;
-            max-height: 0;
-            overflow: hidden;
-            opacity: 0;
+            max-height: 0; overflow: hidden; opacity: 0;
             transition: all 0.6s cubic-bezier(0.2, 1, 0.3, 1);
             box-shadow: 0 4px 20px rgba(0,0,0,0.03);
             border: 1px solid rgba(0,0,0,0.03);
         }
 
         .event.active .content {
-            max-height: 1000px;
-            opacity: 1;
-            padding: 30px;
-            margin-top: 15px;
+            max-height: 1200px; opacity: 1;
+            padding: 30px; margin-top: 15px;
         }
 
-        /* Estado Activo: Suave resaltado */
         .event.active .thumbnail-circle {
             border-color: var(--accent-color);
-            transform: scale(1.1);
+            transform: scale(1.15);
             box-shadow: 0 0 0 6px rgba(140, 140, 115, 0.05);
         }
-        
-        .event.active .thumbnail-circle img {
-            opacity: 1;
+
+        .event.active .thumbnail-circle img { opacity: 1; }
+        .event h2 { margin: 0; font-size: 19px; font-weight: 400; transition: color 0.3s; }
+        .event:hover h2 { color: var(--accent-color); }
+
+        .large-image, .large-video {
+            width: 100%; border-radius: 8px;
+            margin-top: 20px; display: block;
         }
 
-        .event h2 { 
-            margin: 0; 
-            font-size: 19px; 
-            font-weight: 400; 
-            color: var(--text-main);
-            transition: color 0.3s;
-        }
-
-        .date { 
-            font-size: 13px; 
-            font-weight: 500; 
-            color: var(--text-secondary); /* Fecha discreta */
-            letter-spacing: 1.5px;
-            margin-bottom: 6px;
-            display: block; 
-        }
-
-        .event.active .date {
-            color: var(--accent-color); /* Solo resalta al abrir */
-        }
-
-        .content p { 
-            font-size: 15px; 
-            line-height: 1.7; 
-            color: #666;
-            margin-bottom: 0;
-        }
-
-        .large-image {
-            width: 100%;
-            border-radius: 6px;
-            margin-top: 20px;
-            display: block;
-        }
-/* Estilo para el vídeo expandido */
-.large-video {
-    width: 100%;
-    border-radius: 8px; /* Bordes suaves estilo Apple */
-    margin-top: 20px;
-    background-color: #000; /* Fondo negro mientras carga */
-    outline: none;
-}
-
-/* Opcional: si quieres que el vídeo tenga una sombra suave */
-.event.active .large-video {
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-}
-        /* Ajuste móvil */
         @media (max-width: 600px) {
             .timeline-container::after { left: 20px; }
             .event { width: 100%; text-align: left !important; padding-left: 50px; }
             .left .thumbnail-circle, .right .thumbnail-circle { left: 0px; }
+            .year-marker, .month-marker { text-align: left; padding-left: 45px; }
+            .month-marker::after { left: 20px; }
         }
     </style>
 </head>
 <body>
 
     <h1>Archivo Creativo</h1>
-    <p class="subtitle">1992 — 2026</p>
+    <p class="subtitle">Una trayectoria visual</p>
 
     <div class="timeline-container">
         
-     
-      <div class="year-marker">2026</div>
+        <div class="year-marker">2026</div>
+        <div class="month-marker">Marzo</div>
 
-    <div class="month-marker">Marzo</div>
-
-    <div class="event right" onclick="toggleEvent(this)">
-        <div class="thumbnail-circle"><img src="img/moai.jpg"></div>
-        <h2>Escultura Moai V2</h2>
-        <div class="content">
-            <p>Segunda versión del proyecto, refinando texturas.</p>
-            <img src="img/moai.jpg" alt="Moai Full" class="large-image">
+        <div class="event right" onclick="toggleEvent(this)">
+            <div class="thumbnail-circle"><img src="img/moai.jpg"></div>
+            <h2>Escultura Moai V2</h2>
+            <div class="content">
+                <p>Segunda versión del proyecto, refinando texturas y sombras.</p>
+                <img src="img/moai.jpg" class="large-image">
+            </div>
         </div>
-    </div>
 
-    <div class="event left" onclick="toggleEvent(this)">
-        <div class="thumbnail-circle"></div>
-        <h2>Bocetos de paisaje</h2>
-        <div class="content">
-            <p>Exploración rápida de luz ambiental.</p>
+        <div class="event left" onclick="toggleEvent(this)">
+            <div class="thumbnail-circle"></div>
+            <h2>Bocetos de Paisaje</h2>
+            <div class="content">
+                <p>Exploración rápida de luz ambiental y atmósfera.</p>
+            </div>
         </div>
-    </div>
 
-    <div class="month-marker">Enero</div>
+        <div class="month-marker">Enero</div>
 
-    <div class="event right" onclick="toggleEvent(this)">
-        <div class="thumbnail-circle"></div>
-        <h2>Relato corto</h2>
-        <div class="content"><p>Escrito durante el invierno.</p></div>
-    </div>
-          <div class="event left" onclick="toggleEvent(this)">
-    <div class="thumbnail-circle">
-        <img src="img/miniatura-video.jpg" alt="Miniatura Vídeo">
-    </div>
-    <h2>Cortometraje: "Sombras"</h2>
-    <div class="content">
-        <p>Un pequeño experimento visual grabado al atardecer. Explora el movimiento y la luz natural.</p>
+        <div class="event right" onclick="toggleEvent(this)">
+            <div class="thumbnail-circle">
+                <img src="img/miniatura-video.jpg" alt="Miniatura">
+            </div>
+            <h2>Cortometraje: "Sombras"</h2>
+            <div class="content">
+                <p>Experimento visual grabado al atardecer.</p>
+                <video controls playsinline class="large-video">
+                    <source src="img/video-proyecto.mp4" type="video/mp4">
+                </video>
+            </div>
+        </div>
 
-        <video controls class="large-video">
-            <source src="img/video-proyecto.mp4" type="video/mp4">
-            Tu navegador no soporta vídeos.
-        </video>
-    </div>
-</div>
-
-    <div class="year-marker">1992</div>
-    <div class="event left" onclick="toggleEvent(this)">
-        <div class="thumbnail-circle"></div>
-        <h2>El Inicio</h2>
-        <div class="content"><p>Mis primeras pinturas.</p></div>
-    </div>
+        <div class="year-marker">1992</div>
+        <div class="event left" onclick="toggleEvent(this)">
+            <div class="thumbnail-circle"></div>
+            <h2>El Inicio</h2>
+            <div class="content">
+                <p>Donde todo comenzó: las primeras libretas de dibujo.</p>
+            </div>
+        </div>
 
     </div>
 
     <script>
         function toggleEvent(element) {
-            // Cerramos otros para mantener la serenidad visual
+            const isActive = element.classList.contains('active');
+            
+            // Cerrar otros y pausar sus vídeos
             document.querySelectorAll('.event').forEach(el => {
-                if (el !== element) el.classList.remove('active');
+                el.classList.remove('active');
+                const video = el.querySelector('video');
+                if (video) video.pause();
             });
-            element.classList.toggle('active');
+
+            if (!isActive) {
+                element.classList.add('active');
+                // Scroll suave para centrar el elemento
+                setTimeout(() => {
+                    element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 300);
+            }
         }
     </script>
 </body>
