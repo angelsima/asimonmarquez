@@ -35,7 +35,54 @@
             width: 100%;
             max-width: 850px;
         }
+/* Menú de Filtros Superior */
+.filter-menu {
+    position: sticky;
+    top: 0;
+    background: rgba(252, 250, 247, 0.8); /* El mismo crema del fondo con transparencia */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    z-index: 100;
+    border-bottom: 1px solid var(--line-color);
+}
 
+.filter-btn {
+    background: none;
+    border: none;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 8px 16px;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+}
+
+.filter-btn.active {
+    color: var(--accent-color);
+    background: rgba(140, 140, 115, 0.1);
+}
+
+.filter-btn:hover {
+    color: var(--text-main);
+}
+
+/* Lógica de ocultar/mostrar */
+.event {
+    display: block; /* Por defecto visibles */
+    transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+/* Animación cuando algo se oculta */
+.hidden {
+    display: none !important;
+}
         /* Línea central */
         .timeline-container::after {
             content: '';
@@ -138,11 +185,19 @@
             .left .thumbnail-circle, .right .thumbnail-circle { left: 0px; }
             .year-marker, .month-marker { text-align: left; padding-left: 45px; }
             .month-marker::after { left: 20px; }
+            .filter-menu {flex-wrap: wrap; padding: 10px; gap: 5px; }
+            .filter-btn {font-size: 11px;padding: 6px 10px;}
         }
     </style>
 </head>
 <body>
-
+<nav class="filter-menu">
+    <button class="filter-btn active" onclick="filterCategory('todos')">Todos</button>
+    <button class="filter-btn" onclick="filterCategory('escritura')">Escritura</button>
+    <button class="filter-btn" onclick="filterCategory('dibujo')">Dibujo</button>
+    <button class="filter-btn" onclick="filterCategory('carpinteria')">Carpintería</button>
+    <button class="filter-btn" onclick="filterCategory('escultura')">Escultura</button>
+</nav>
     <h1>Archivo Creativo</h1>
     <p class="subtitle">Una trayectoria visual</p>
 
@@ -151,7 +206,7 @@
         <div class="year-marker">2026</div>
         <div class="month-marker">Marzo</div>
 
-        <div class="event right" onclick="toggleEvent(this)">
+        <div class="event right escultura" onclick="toggleEvent(this)">
             <div class="thumbnail-circle"><img src="img/moai.jpg"></div>
             <h2>Escultura Moai V2</h2>
             <div class="content">
@@ -160,7 +215,7 @@
             </div>
         </div>
 
-        <div class="event left" onclick="toggleEvent(this)">
+        <div class="event left dibujo" onclick="toggleEvent(this)">
             <div class="thumbnail-circle"></div>
             <h2>Bocetos de Paisaje</h2>
             <div class="content">
@@ -184,7 +239,7 @@
         </div>
 
         <div class="year-marker">1992</div>
-        <div class="event left" onclick="toggleEvent(this)">
+        <div class="event left carpinteria" onclick="toggleEvent(this)">
             <div class="thumbnail-circle"></div>
             <h2>El Inicio</h2>
             <div class="content">
@@ -196,23 +251,44 @@
 
     <script>
         function toggleEvent(element) {
-            const isActive = element.classList.contains('active');
-            
-            // Cerrar otros y pausar sus vídeos
-            document.querySelectorAll('.event').forEach(el => {
-                el.classList.remove('active');
-                const video = el.querySelector('video');
-                if (video) video.pause();
-            });
+    const isActive = element.classList.contains('active');
+    
+    // Cerramos todos y pausamos vídeos
+    document.querySelectorAll('.event').forEach(el => {
+        el.classList.remove('active');
+        const v = el.querySelector('video'); if(v) v.pause();
+    });
 
-            if (!isActive) {
-                element.classList.add('active');
-                // Scroll suave para centrar el elemento
-                setTimeout(() => {
-                    element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }, 300);
-            }
+    if (!isActive) {
+        element.classList.add('active');
+        setTimeout(() => {
+            element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 300);
+    }
+}
+
+function filterCategory(category) {
+    // 1. Actualizar botones del menú
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if(btn.innerText.toLowerCase() === category || (category === 'todos' && btn.innerText === 'Todos')) {
+            btn.classList.add('active');
         }
+    });
+
+    // 2. Filtrar eventos
+    document.querySelectorAll('.event').forEach(event => {
+        if (category === 'todos' || event.classList.contains(category)) {
+            event.classList.remove('hidden');
+        } else {
+            event.classList.add('hidden');
+            event.classList.remove('active'); // Cerrar si estaba abierto
+        }
+    });
+
+    // 3. Opcional: Ocultar marcadores de mes/año vacíos
+    // (Esto es más avanzado, por ahora los dejaremos visibles para mantener la estructura)
+}
     </script>
 </body>
 </html>
