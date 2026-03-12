@@ -60,7 +60,43 @@
             transform: translateX(-50%);
             z-index: 1;
         }
+/* Marcador de Año: Centrado y con aire */
+.year-marker {
+    width: 100%;
+    text-align: center;
+    font-size: 24px;
+    font-weight: 200;
+    color: var(--text-main);
+    letter-spacing: 4px;
+    margin: 60px 0 30px 0;
+    position: relative;
+    z-index: 2;
+}
 
+/* Marcador de Mes: Pequeño y sobre la línea */
+.month-marker {
+    position: relative;
+    width: 100%;
+    text-align: center;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--text-secondary);
+    margin: 40px 0 20px 0;
+    z-index: 2;
+}
+        /* El círculo del mes (opcional, para que nazca de la línea) */
+.month-marker::after {
+    content: '';
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: var(--line-color);
+    border-radius: 50%;
+    left: 50%;
+    top: 110%;
+    transform: translateX(-50%);
+}
         .event {
             padding: 20px 60px;
             position: relative;
@@ -68,6 +104,7 @@
             box-sizing: border-box;
             cursor: pointer;
             z-index: 2;
+            margin-bottom: 10px;
         }
 
         /* Contenedor del Círculo/Miniatura */
@@ -164,7 +201,19 @@
             margin-top: 20px;
             display: block;
         }
+/* Estilo para el vídeo expandido */
+.large-video {
+    width: 100%;
+    border-radius: 8px; /* Bordes suaves estilo Apple */
+    margin-top: 20px;
+    background-color: #000; /* Fondo negro mientras carga */
+    outline: none;
+}
 
+/* Opcional: si quieres que el vídeo tenga una sombra suave */
+.event.active .large-video {
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
         /* Ajuste móvil */
         @media (max-width: 600px) {
             .timeline-container::after { left: 20px; }
@@ -180,35 +229,55 @@
 
     <div class="timeline-container">
         
-        <div class="event right" onclick="toggleEvent(this)">
-            <div class="thumbnail-circle">
-                <img src="img/moai.jpg" alt="Moai">
-            </div>
-            <span class="date">2024</span>
-            <h2>Escultura Digital Moai</h2>
-            <div class="content">
-                <p>Un ejercicio de paciencia y observación sobre la erosión del tiempo en la piedra volcánica.</p>
-                <img src="img/moai.jpg" alt="Moai Full" class="large-image">
-            </div>
-        </div>
+     
+      <div class="year-marker">2026</div>
 
-        <div class="event left" onclick="toggleEvent(this)">
-            <div class="thumbnail-circle"></div>
-            <span class="date">2010</span>
-            <h2>Relatos de Invierno</h2>
-            <div class="content">
-                <p>Una breve antología de textos escritos durante mi estancia en el norte, buscando capturar la quietud del paisaje nevado.</p>
-            </div>
-        </div>
+    <div class="month-marker">Marzo</div>
 
-        <div class="event right" onclick="toggleEvent(this)">
-            <div class="thumbnail-circle"></div>
-            <span class="date">1992</span>
-            <h2>El Origen</h2>
-            <div class="content">
-                <p>Las primeras libretas. El inicio de la curiosidad por las formas y las historias.</p>
-            </div>
+    <div class="event right" onclick="toggleEvent(this)">
+        <div class="thumbnail-circle"><img src="img/moai.jpg"></div>
+        <h2>Escultura Moai V2</h2>
+        <div class="content">
+            <p>Segunda versión del proyecto, refinando texturas.</p>
         </div>
+    </div>
+
+    <div class="event left" onclick="toggleEvent(this)">
+        <div class="thumbnail-circle"></div>
+        <h2>Bocetos de paisaje</h2>
+        <div class="content">
+            <p>Exploración rápida de luz ambiental.</p>
+        </div>
+    </div>
+
+    <div class="month-marker">Enero</div>
+
+    <div class="event right" onclick="toggleEvent(this)">
+        <div class="thumbnail-circle"></div>
+        <h2>Relato corto</h2>
+        <div class="content"><p>Escrito durante el invierno.</p></div>
+    </div>
+          <div class="event left" onclick="toggleEvent(this)">
+    <div class="thumbnail-circle">
+        <img src="img/miniatura-video.jpg" alt="Miniatura Vídeo">
+    </div>
+    <h2>Cortometraje: "Sombras"</h2>
+    <div class="content">
+        <p>Un pequeño experimento visual grabado al atardecer. Explora el movimiento y la luz natural.</p>
+
+        <video controls class="large-video">
+            <source src="img/video-proyecto.mp4" type="video/mp4">
+            Tu navegador no soporta vídeos.
+        </video>
+    </div>
+</div>
+
+    <div class="year-marker">1992</div>
+    <div class="event left" onclick="toggleEvent(this)">
+        <div class="thumbnail-circle"></div>
+        <h2>El Inicio</h2>
+        <div class="content"><p>Mis primeras pinturas.</p></div>
+    </div>
 
     </div>
 
