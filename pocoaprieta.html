@@ -1,0 +1,772 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>ángel pocoaprieta</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: papeles sueltos sobre una mesa ordenada — rejilla tranquila, piezas torcidas solo si están en proceso */
+:root{
+  --paper:#F3F1EC; --paper-2:#E8E4DB; --card:#FFFFFF;
+  --ink:#16161A; --ink-2:#4A4A50; --line:#16161A;
+  --accent:#2340D9; --on-accent:#FFFFFF;
+  --albero:#F2A33A; --on-albero:#16161A;
+  --inv-bg:#16161A; --inv-fg:#F3F1EC; --inv-muted:#C9C5BC;
+  --f-display:'Bricolage Grotesque', 'Arial Narrow', system-ui, sans-serif;
+  --f-mono:'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#131316; --paper-2:#1C1C21; --card:#202026;
+    --ink:#ECE9E2; --ink-2:#A9A59C; --line:#CFCBC2;
+    --accent:#8C9BFF; --on-accent:#0E0F1A;
+    --albero:#F2A33A; --on-albero:#16161A;
+    --inv-bg:#ECE9E2; --inv-fg:#16161A; --inv-muted:#4A4A50;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#131316; --paper-2:#1C1C21; --card:#202026;
+  --ink:#ECE9E2; --ink-2:#A9A59C; --line:#CFCBC2;
+  --accent:#8C9BFF; --on-accent:#0E0F1A;
+  --albero:#F2A33A; --on-albero:#16161A;
+  --inv-bg:#ECE9E2; --inv-fg:#16161A; --inv-muted:#4A4A50;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-display);font-size:17px;line-height:1.5}
+a{color:inherit}
+a:hover{color:var(--accent)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+h1,h2,h3{text-wrap:balance;margin:0}
+p{margin:0}
+.wrap{max-width:1200px;margin:0 auto;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
+@media (min-width:700px){.wrap{padding-left:max(32px, env(safe-area-inset-left, 0px));padding-right:max(32px, env(safe-area-inset-right, 0px))}}
+.mono{font-family:var(--f-mono);font-size:13px;letter-spacing:.04em}
+.eyebrow{font-family:var(--f-mono);font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+.muted{color:var(--ink-2)}
+
+/* Cabecera */
+.top{position:sticky;top:env(safe-area-inset-top, 0px);z-index:20;background:var(--paper);border-bottom:1.5px solid var(--line)}
+.top-in{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:4px 24px;padding-block:10px}
+.logo{font-weight:800;font-size:22px;letter-spacing:-.02em;text-decoration:none;padding:10px 0}
+.logo b{color:var(--accent);font-weight:800}
+.menu-btn{display:none;min-height:44px;padding:0 16px;border:1.5px solid var(--line);background:transparent;color:var(--ink);font:600 16px var(--f-display);border-radius:999px;cursor:pointer}
+.nav-links{display:flex;flex-wrap:wrap;align-items:center;gap:0 24px;font-size:17px;font-weight:500}
+.nav-links a{text-decoration:none;padding:12px 0}
+.nav-links a[aria-current="page"]{font-weight:700;text-decoration:underline;text-decoration-color:var(--accent);text-decoration-thickness:3px;text-underline-offset:8px}
+.nav-links a.pill{padding:9px 16px;border:1.5px solid var(--line);border-radius:999px}
+@media (max-width:880px){
+  .menu-btn{display:inline-flex;align-items:center}
+  .nav-links{display:none;width:100%;flex-direction:column;align-items:flex-start;padding-bottom:12px}
+  .nav-links.open{display:flex}
+  .nav-links a.pill{margin-top:8px}
+}
+
+/* Tipografía de páginas */
+.hero{padding-block:48px 40px;display:flex;flex-wrap:wrap;gap:24px 64px;align-items:flex-end}
+.hero > div{flex:1 1 480px;min-width:0}
+.hero > .hero-side{flex:1 1 340px}
+.display{font-size:clamp(40px, 6vw, 84px);line-height:.95;font-weight:750;letter-spacing:-.045em;margin-top:14px}
+.display-xl{font-size:clamp(46px, 7.4vw, 112px);line-height:.92;letter-spacing:-.05em}
+.lede{font-size:20px;line-height:1.5;max-width:60ch}
+.hilo{font-size:clamp(24px, 3vw, 42px);line-height:1.12;font-weight:300;letter-spacing:-.02em;color:var(--accent);max-width:28ch;margin-top:28px}
+.legend{margin-top:14px;font-family:var(--f-mono);font-size:13px;color:var(--ink-2)}
+
+/* Bandas */
+.band{padding-block:0 72px}
+.band-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:6px 24px;border-top:1.5px solid var(--line);padding-top:18px;margin-bottom:32px}
+.band-head h2{font-size:clamp(30px, 3.4vw, 42px);font-weight:700;letter-spacing:-.03em}
+.band-alt{background:var(--paper-2);border-block:1.5px solid var(--line);padding-block:56px 72px;margin-bottom:72px}
+.band-alt .band-head{border-top:0;padding-top:0}
+
+/* Tarjetas */
+.cards{display:grid;grid-template-columns:repeat(auto-fill, minmax(min(100%, 270px), 1fr));gap:32px 28px;align-items:start}
+.card{display:block;text-decoration:none;border:1.5px solid var(--line);padding:18px;transform:rotate(var(--tilt, 0deg));transition:transform .25s ease}
+.card:hover{transform:rotate(calc(var(--tilt, 0deg) * .3));color:inherit}
+.card h3{font-size:28px;font-weight:700;letter-spacing:-.02em;line-height:1.05;margin:6px 0 8px}
+.card p.desc{font-size:16px;line-height:1.45}
+.card .meta{font-family:var(--f-mono);font-size:12px;letter-spacing:.04em;text-transform:uppercase;opacity:.8;margin-top:14px}
+.tone-paper{background:var(--card);color:var(--ink)}
+.tone-accent{background:var(--card);color:var(--ink)}
+.tone-albero{background:var(--albero);color:var(--on-albero)}
+.tone-ink{background:var(--inv-bg);color:var(--inv-fg)}
+.tone-albero:hover,.tone-ink:hover{color:inherit}
+.ph{aspect-ratio:4/3;max-width:100%;border:1.5px solid currentColor;display:flex;align-items:flex-end;padding:12px;font-family:var(--f-mono);font-size:12px}
+.tone-paper .ph{background:var(--paper-2);color:var(--ink)}
+.tone-accent .ph{background:var(--accent);color:var(--on-accent);border-color:var(--line)}
+.tone-albero .ph{background:var(--paper);color:var(--ink)}
+.tone-ink .ph{background:var(--albero);color:var(--on-albero)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.chip{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.04em;text-transform:uppercase;padding:3px 8px;border:1.5px solid currentColor;line-height:1.4}
+.chip-dash{border-style:dashed}
+.chip-venta{background:var(--albero);color:var(--on-albero);border-color:var(--line)}
+.tone-albero .chip-venta{background:var(--on-albero);color:var(--albero)}
+
+/* Notas: lo que está a medias */
+.notes{display:grid;grid-template-columns:repeat(auto-fill, minmax(min(100%, 230px), 1fr));gap:24px;align-items:start}
+.note{display:block;text-decoration:none;background:var(--card);color:var(--ink);border:1.5px solid var(--line);padding:18px;transform:rotate(var(--tilt, 0deg));transition:transform .25s ease}
+.note:hover{transform:rotate(calc(var(--tilt, 0deg) * .3));color:var(--ink)}
+.note.alb{background:var(--albero);color:var(--on-albero)}
+.note .meta{font-family:var(--f-mono);font-size:12px;text-transform:uppercase;letter-spacing:.04em;opacity:.8}
+.note h3{font-size:23px;font-weight:700;margin:6px 0}
+.note p{font-size:15.5px;line-height:1.45}
+
+/* Filas: piezas sueltas */
+.rows{border-top:1.5px solid var(--line)}
+.row{border-bottom:1.5px solid var(--line);padding-block:26px;display:flex;flex-wrap:wrap;gap:12px 40px;align-items:flex-start}
+.row-meta{flex:0 0 150px;font-family:var(--f-mono);font-size:13px;color:var(--ink-2);padding-top:7px}
+.row-main{flex:1 1 420px;min-width:0}
+.row-main h3{font-size:clamp(26px, 2.6vw, 32px);font-weight:700;letter-spacing:-.025em}
+.row-main h3 a{text-decoration:none}
+.row-main p{margin-top:8px;max-width:62ch}
+.row-part{font-family:var(--f-mono);font-size:13px;color:var(--ink-2);margin-top:10px !important}
+.row-acts{display:flex;flex-wrap:wrap;gap:10px}
+
+/* Botones */
+.btn{display:inline-flex;align-items:center;min-height:44px;padding:0 18px;background:var(--ink);color:var(--paper);text-decoration:none;font-weight:600;font-size:16px;border:1.5px solid var(--ink)}
+.btn:hover{color:var(--paper);background:var(--accent);border-color:var(--accent)}
+.btn-ghost{display:inline-flex;align-items:center;min-height:44px;padding:0 17px;border:1.5px solid var(--line);text-decoration:none;font-weight:600;font-size:16px;background:transparent;color:var(--ink);cursor:pointer;font-family:var(--f-display)}
+.btn-accent{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+.btn-accent:hover{color:var(--on-accent)}
+
+/* Puertas de la portada */
+.doors{list-style:none;margin:0;padding:0;border-top:1.5px solid var(--line)}
+.doors li{border-bottom:1.5px solid var(--line)}
+.doors a{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 32px;padding-block:24px;text-decoration:none}
+.doors .name{flex:1 1 300px;font-size:clamp(36px, 4.6vw, 62px);font-weight:700;letter-spacing:-.035em;line-height:1}
+.doors .what{flex:1 1 340px;font-size:18px;line-height:1.4;color:var(--ink-2)}
+.doors .count{flex:0 0 120px;font-family:var(--f-mono);font-size:13px;color:var(--accent);text-align:right;font-variant-numeric:tabular-nums}
+@media (max-width:700px){.doors .count{text-align:left;flex-basis:100%}}
+
+/* Filtros */
+.filters{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px 28px;border-block:1.5px solid var(--line);padding-block:14px;margin-bottom:44px}
+.chip-btns{display:flex;flex-wrap:wrap;gap:8px}
+.fbtn{min-height:44px;padding:0 18px;border:1.5px solid var(--line);border-radius:999px;background:transparent;color:var(--ink);font:500 16px var(--f-display);cursor:pointer}
+.fbtn[aria-pressed="true"]{background:var(--ink);color:var(--paper);font-weight:600}
+.check{display:flex;align-items:center;gap:10px;min-height:44px;cursor:pointer}
+.check input{width:20px;height:20px;accent-color:var(--accent)}
+
+/* Ficha */
+.crumbs{padding-top:28px;font-family:var(--f-mono);font-size:13px;color:var(--ink-2)}
+.crumbs a{color:var(--ink-2)}
+.ficha{display:flex;flex-wrap:wrap;gap:40px 64px;padding-block:40px 88px;align-items:flex-start}
+.ficha-img{flex:1 1 360px;max-width:520px}
+.ficha-img .ph{aspect-ratio:1/1;transform:rotate(var(--tilt, 0deg))}
+.ficha-txt{flex:1 1 420px;min-width:0}
+.ficha-txt h1{font-size:clamp(44px, 6.4vw, 92px);font-weight:750;letter-spacing:-.045em;line-height:.95;margin-top:14px}
+.ficha-txt .lede{margin-top:22px}
+.ficha-acts{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}
+.buybox{margin-top:28px;border:1.5px solid var(--line);padding:18px 20px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px 24px}
+.facts{margin-top:28px;display:grid;grid-template-columns:max-content 1fr;gap:8px 20px;font-size:16px}
+.facts dt{font-family:var(--f-mono);font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-2);padding-top:3px}
+.facts dd{margin:0}
+
+/* Música */
+.inst{padding-block:72px;display:flex;flex-wrap:wrap;gap:28px 64px;align-items:center}
+.inst > div{flex:1 1 440px;min-width:0}
+.inst.right{text-align:right;flex-direction:row-reverse}
+.inst.right p.lede{margin-left:auto}
+.inst h2{font-size:clamp(60px, 10vw, 160px);font-weight:800;letter-spacing:-.06em;line-height:.85;margin:10px 0 22px}
+.video{aspect-ratio:16/9;max-width:100%;background:var(--inv-bg);color:var(--inv-fg);display:flex;align-items:center;justify-content:center;gap:12px;font-family:var(--f-mono);font-size:13px}
+
+/* Visor de libreta */
+.visor{border:1.5px solid var(--line);background:var(--card);padding:18px}
+.visor-pages{display:grid;grid-template-columns:repeat(2, minmax(0, 1fr));gap:4px}
+.visor-pages .ph{aspect-ratio:3/4;background:var(--paper-2);color:var(--ink);border-color:var(--line)}
+@media (max-width:640px){.visor-pages{grid-template-columns:minmax(0, 1fr)}.visor-pages .ph + .ph{display:none}}
+.visor-ctrl{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;margin-top:14px}
+.visor-ctrl span{font-family:var(--f-mono);font-size:13px;font-variant-numeric:tabular-nums;color:var(--ink-2)}
+
+/* Archivo */
+.year{display:flex;flex-wrap:wrap;gap:8px 40px;border-top:1.5px solid var(--line);padding-block:22px}
+.year h2{flex:0 0 200px;font-size:30px;font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.year ul{flex:1 1 420px;list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;min-width:0}
+.year li{display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 20px}
+.year li a{font-size:19px;font-weight:600;text-decoration:none}
+
+/* Bloques varios */
+.split{display:flex;flex-wrap:wrap;gap:28px 64px;align-items:flex-end;padding-block:96px}
+.split > *{flex:1 1 420px;min-width:0}
+.split h2{font-size:clamp(36px, 4.6vw, 62px);font-weight:700;letter-spacing:-.035em;line-height:1}
+.outside{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:20px 40px}
+.outside h2{font-size:clamp(34px, 4.4vw, 56px);font-weight:800;letter-spacing:-.04em;line-height:1;margin:8px 0 12px}
+.copyrow{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:14px}
+.copyrow code{font-family:var(--f-mono);font-size:15px;padding:10px 12px;border:1.5px dashed var(--line);user-select:all}
+.empty{font-size:19px;color:var(--ink-2)}
+
+/* Pie */
+.foot{background:var(--inv-bg);color:var(--inv-fg)}
+.foot-in{display:flex;flex-wrap:wrap;justify-content:space-between;gap:32px 48px;padding-block:52px 40px}
+.foot .logo{font-size:26px;padding:0}
+.foot .logo b{color:var(--albero)}
+.foot-cols{display:flex;flex-wrap:wrap;gap:28px 56px}
+.foot-cols div{display:flex;flex-direction:column;gap:10px}
+.foot-cols span{font-family:var(--f-mono);font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--inv-muted)}
+.foot a{color:var(--inv-fg);text-decoration:none}
+.foot a:hover{text-decoration:underline}
+
+/* Saltos dentro de una disciplina */
+.jump{display:flex;flex-wrap:wrap;gap:8px;padding-block:0 40px}
+.jump button{min-height:44px;padding:0 16px;border:1.5px solid var(--line);border-radius:999px;background:var(--card);color:var(--ink);font:500 16px var(--f-display);cursor:pointer}
+.jump button:hover{border-color:var(--accent);color:var(--accent)}
+.jump b{font-family:var(--f-mono);font-size:13px;font-weight:600;margin-left:6px;color:var(--ink-2)}
+
+/* Archivo: buscador */
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.arch-tools{display:flex;flex-direction:column;gap:14px;border:1.5px solid var(--line);background:var(--card);padding:18px;margin-bottom:36px}
+.arch-q{width:100%;min-height:52px;padding:0 16px;border:1.5px solid var(--line);background:var(--paper);color:var(--ink);font:400 18px var(--f-display)}
+.fgroup{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.fgroup > span{flex:0 0 100px;font-family:var(--f-mono);font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-2)}
+.arch-foot{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px 24px;border-top:1.5px dashed var(--line);padding-top:12px}
+.arch-year{font-size:28px;font-weight:700;letter-spacing:-.02em;padding-block:28px 6px;font-variant-numeric:tabular-nums}
+.arow{display:grid;grid-template-columns:72px minmax(0, 1fr);gap:18px;align-items:center;padding-block:14px;border-bottom:1.5px solid var(--line);text-decoration:none}
+.arow:first-of-type{border-top:1.5px solid var(--line)}
+.arow:hover{color:inherit}
+.arow:hover h3{color:var(--accent)}
+.athumb{aspect-ratio:1/1;border:1.5px solid var(--line);transform:rotate(var(--tilt, 0deg))}
+.athumb.tone-paper{background:var(--paper-2)}
+.athumb.tone-accent{background:var(--accent)}
+.athumb.tone-albero{background:var(--albero)}
+.athumb.tone-ink{background:var(--inv-bg)}
+.arow h3{font-size:22px;font-weight:700;letter-spacing:-.015em;line-height:1.15}
+.arow .meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;color:var(--ink)}
+.arow .sub{font-family:var(--f-mono);font-size:12.5px;color:var(--ink-2);margin-top:6px}
+@media (max-width:520px){.arow{grid-template-columns:52px minmax(0, 1fr);gap:14px}.fgroup > span{flex-basis:100%}}
+
+/* Estados: idea punteada, aparcado en gris */
+.card.is-idea,.note.is-idea{border-style:dashed}
+.card.is-aparcado,.note.is-aparcado{background:var(--paper-2);color:var(--ink-2)}
+.card.is-aparcado .ph{filter:grayscale(1)}
+.athumb.is-idea{border-style:dashed;background:transparent}
+.athumb.is-aparcado{background:var(--paper-2);filter:grayscale(1)}
+.ladder{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px}
+.ladder li{font-family:var(--f-mono);font-size:12px;text-transform:uppercase;letter-spacing:.04em;padding:4px 10px;border:1.5px dashed var(--ink-2);color:var(--ink-2)}
+.ladder li.done{border-style:solid;color:var(--ink)}
+.ladder li.now{background:var(--accent);color:var(--on-accent);border:1.5px solid var(--accent)}
+
+/* Marcador del Archivo */
+.score{display:grid;grid-template-columns:repeat(4, minmax(0, 1fr));gap:8px}
+@media (max-width:560px){.score{grid-template-columns:repeat(2, minmax(0, 1fr))}}
+.tile{min-height:92px;display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start;gap:8px;padding:12px 14px;border:1.5px solid var(--line);background:var(--paper);color:var(--ink);font-family:var(--f-display);cursor:pointer;text-align:left}
+.tile b{font-size:44px;font-weight:750;line-height:.9;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.tile span{font-family:var(--f-mono);font-size:12px;text-transform:uppercase;letter-spacing:.05em}
+.tile.is-idea{border-style:dashed}
+.tile.is-aparcado{background:var(--paper-2);color:var(--ink-2)}
+.tile:hover{border-color:var(--accent)}
+.tile[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-style:solid;border-color:var(--ink)}
+
+/* Bio discreta en el menú */
+.nav-links a.bio{font-size:15px;color:var(--ink-2);margin-left:14px}
+@media (max-width:880px){.nav-links a.bio{margin-left:0}}
+
+/* Destacados: el escaparate */
+.feats{display:grid;grid-template-columns:repeat(2, minmax(0, 1fr));gap:28px}
+@media (max-width:760px){.feats{grid-template-columns:minmax(0, 1fr)}}
+.feat{border:1.5px solid var(--line);display:flex;flex-direction:column;min-width:0}
+.feat-big{grid-column:1 / -1;flex-direction:row;flex-wrap:wrap}
+.feat-img{display:block;flex:1 1 440px;min-width:0}
+.feat .ph{aspect-ratio:16/10;border:0;border-bottom:1.5px solid var(--line)}
+.feat-big .ph{aspect-ratio:auto;height:100%;min-height:300px}
+.feat-txt{flex:1 1 320px;min-width:0;padding:22px 22px 26px;display:flex;flex-direction:column;align-items:flex-start;gap:10px}
+.feat-big .feat-txt{justify-content:center;padding:32px}
+.feat .meta{font-family:var(--f-mono);font-size:12px;text-transform:uppercase;letter-spacing:.05em;opacity:.8}
+.feat h3{font-size:clamp(28px, 3vw, 40px);font-weight:750;letter-spacing:-.03em;line-height:1}
+.feat-big h3{font-size:clamp(38px, 5vw, 68px)}
+.feat h3 a{text-decoration:none}
+.feat .desc{font-size:18px;line-height:1.45;max-width:46ch}
+.feat .btn{margin-top:8px}
+.tone-ink .btn{background:var(--albero);color:var(--on-albero);border-color:var(--albero)}
+.tone-ink .btn:hover{background:var(--inv-fg);color:var(--inv-bg);border-color:var(--inv-fg)}
+.tone-ink h3 a:hover,.tone-albero h3 a:hover{color:inherit;text-decoration:underline}
+
+/* En el horno: lo que está a medias, plegado */
+.oven{border:1.5px solid var(--line);background:var(--paper-2)}
+.oven summary{cursor:pointer;list-style:none;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:6px 20px;padding:20px 22px}
+.oven summary::-webkit-details-marker{display:none}
+.oven summary .t{font-size:clamp(26px, 3vw, 36px);font-weight:700;letter-spacing:-.03em}
+.oven summary .t::before{content:'+ ';font-family:var(--f-mono);color:var(--accent)}
+.oven[open] summary .t::before{content:'− '}
+.oven-in{padding:0 22px 26px}
+
+/* Encuentro destacado en portada */
+.meet{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:16px 32px;background:var(--inv-bg);color:var(--inv-fg);padding:28px}
+.meet h2{font-size:clamp(28px, 3.4vw, 42px);font-weight:700;letter-spacing:-.03em;margin-top:6px}
+.meet .mono{color:var(--inv-muted);text-transform:uppercase}
+.meet .btn{background:var(--albero);color:var(--on-albero);border-color:var(--albero)}
+
+@media (prefers-reduced-motion: reduce){.card,.note,.athumb{transition:none}}
+</style>
+
+<header class="top">
+  <div class="wrap top-in">
+    <a class="logo" href="#inicio">ángel<b>·</b>pocoaprieta</a>
+    <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="nav-links">Menú</button>
+    <nav class="nav-links" id="nav-links" aria-label="Principal">
+      <a href="#escritura">Escritura</a>
+      <a href="#juegos">Juegos</a>
+      <a href="#musica">Música</a>
+      <a href="#taller">Taller</a>
+      <a href="#tienda">Tienda</a>
+      <a href="#bio" class="bio">Bio</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main"></main>
+
+<footer class="foot">
+  <div class="wrap foot-in">
+    <div>
+      <p class="logo">ángel<b>·</b>pocoaprieta</p>
+      <p style="margin-top:8px;color:var(--inv-muted)">Málaga</p>
+    </div>
+    <div class="foot-cols">
+      <div>
+        <span>Sígueme o escríbeme</span>
+        <a href="https://www.instagram.com/angel.pocoaprieta/">Instagram @angel.pocoaprieta</a>
+        <p style="user-select:all">[EMAIL DE CONTACTO]</p>
+      </div>
+      <div>
+        <span>Más</span>
+        <a href="#archivo">Archivo completo</a>
+        <a href="#tienda">Etsy · PocoAprieta</a>
+        <a href="#bio">Clases de español ↗</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ===== El almacén: cada cosa responde a cuatro preguntas ===== */
+const DISC = {
+  escritura:{label:'Escritura', page:'escritura'},
+  juegos:{label:'Juegos', page:'juegos'},
+  musica:{label:'Música', page:'musica'},
+  taller:{label:'Taller', page:'taller'},
+  tierra:{label:'Tierra', page:null},
+  encuentros:{label:'Encuentros', page:null}
+};
+const ETSY = {canal:'Etsy · PocoAprieta', precio:'[PRECIO]'};
+const ITEMS = [
+  // Proyectos
+  {id:'refrankenstein', t:'Refránkenstein', tipo:'proyecto', disc:['escritura','juegos'], estado:'en proceso', venta:{canal:'Merch propia', precio:'[PRECIO]'}, formato:'Ecosistema', temas:['idiomas','humor'], tono:'ink', desc:'Refranes cosidos entre sí hasta que dicen otra cosa. Cartas, web, merch, fanzine y juego.', accion:'Ir a la web ↗'},
+  {id:'fanzines', t:'Colección de fanzines', tipo:'proyecto', disc:['escritura'], estado:'en proceso', venta:{canal:'En papel · pago por Bizum', precio:'[PRECIO]'}, formato:'Colección', tono:'albero', nuevo:true, desc:'Mis relatos, uno por fanzine. Se leen gratis aquí y se piden en papel.'},
+  {id:'ejercicios', t:'Ejercicios de estilo', tipo:'proyecto', disc:['escritura'], estado:'en proceso', formato:'Interactivo', tono:'accent', desc:'Una señora mayor se cae. La misma escena, contada de [N] maneras. Algunas se tocan.', accion:'Entrar'},
+  {id:'optimo', t:'Óptimo Martín', tipo:'proyecto', disc:['escritura'], estado:'aparcado', formato:'Novela', fecha:2020, desc:'Un hombre obsesionado con la productividad que lo pierde todo menos el método.'},
+  {id:'malagosto', t:'Malagosto', tipo:'proyecto', disc:['juegos'], estado:'en proceso', formato:'Tower defense', temas:['vivienda','Málaga'], tono:'accent', nuevo:true, desc:'Tower defense satírico sobre la vivienda en Málaga. Defiende tu piso del centro.', accion:'Jugar'},
+  {id:'funcionaryo', t:'FuncionarYo', tipo:'proyecto', disc:['juegos'], estado:'en proceso', formato:'Arcade', tono:'albero', nuevo:true, desc:'Esquiva tareas de funcionario, de interino a la jubilación.', accion:'Jugar la demo'},
+  {id:'geoacento', t:'GeoAcento', tipo:'proyecto', disc:['juegos'], estado:'en proceso', formato:'Juego web', temas:['idiomas','acentos'], tono:'paper', desc:'Escuchas un acento y lo sitúas en el mapa. Hecho a cuatro manos con [NOMBRE].', accion:'Jugar ↗'},
+  {id:'eskilsua', t:'Eskilsuá', tipo:'proyecto', disc:['encuentros'], estado:'en proceso', formato:'Encuentros', tono:'ink', nuevo:true, desc:'Desconocidos que se enseñan una microhabilidad en diez minutos. Próximo: [FECHA] en [LUGAR].', accion:'Apuntarme'},
+  {id:'especies', t:'Cuaderno de especies', tipo:'proyecto', disc:['tierra'], estado:'en proceso', venta:ETSY, formato:'Printable', temas:['permacultura'], tono:'paper', desc:'Fichas de especies para diseñar con permacultura. En pruebas con gente de confianza.'},
+  {id:'pegatinas', t:'[Colección de pegatinas]', tipo:'proyecto', disc:['taller'], estado:'idea', venta:ETSY, formato:'Colección', tono:'albero', desc:'[Pegatinas a partir de mis dibujos.]'},
+  // Piezas
+  {id:'gandul', t:'Gandul, el sentido', tipo:'pieza', disc:['escritura'], estado:'terminado', formato:'Relato', dur:'[X] min', parte:['fanzines'], temas:['vivienda'], desc:'Cuando los ricos deciden que ser pobre está de moda, el barrio deja de ser de quien lo vive.', accion:'Leer'},
+  {id:'relato-b', t:'[Título del relato]', tipo:'pieza', disc:['escritura'], estado:'terminado', formato:'Relato', dur:'[X] min', parte:['fanzines'], desc:'[Sinopsis en una frase.]', accion:'Leer'},
+  {id:'relato-c', t:'[Título del relato]', tipo:'pieza', disc:['escritura'], estado:'terminado', formato:'Relato', dur:'[X] min', desc:'[Sinopsis en una frase.]', accion:'Leer'},
+  {id:'breves', t:'Textos breves', tipo:'pieza', disc:['escritura'], estado:'terminado', formato:'Cajón', dur:'[N] textos', desc:'Los cortos sueltos, de tonos muy distintos.', accion:'Abrir el cajón'},
+  {id:'libro-qr', t:'Libro sin texto', tipo:'pieza', disc:['escritura'], estado:'idea', formato:'Libro-objeto', desc:'Solo códigos QR. Una crítica al móvil que necesita el móvil para leerse.'},
+  {id:'datafono', t:'Datáfono poético', tipo:'pieza', disc:['escritura','taller'], estado:'idea', formato:'Máquina', desc:'Pasas la tarjeta y, en vez de un ticket, sale un poema.'},
+  {id:'cojones', t:'Poesía con dos cojones', tipo:'pieza', disc:['escritura'], estado:'idea', formato:'Poesía', desc:'Un poeta que sentencia y no duda. Nunca.'},
+  {id:'camisetas-refran', t:'Camisetas Refránkenstein', tipo:'pieza', disc:['taller'], estado:'terminado', venta:{canal:'Merch propia', precio:'[PRECIO]'}, formato:'Camisetas', parte:['refrankenstein'], tono:'ink', desc:'Refranes cosidos, ahora para llevar puestos.'},
+  {id:'camiseta-suelta', t:'[Camiseta con frase suelta]', tipo:'pieza', disc:['taller'], estado:'terminado', venta:{canal:'Merch propia', precio:'[PRECIO]'}, formato:'Camiseta', tono:'paper', desc:'[La frase y por qué.]'},
+  {id:'pegatina-suelta', t:'[Pegatina suelta]', tipo:'pieza', disc:['taller'], estado:'terminado', venta:ETSY, formato:'Pegatina', tono:'albero', desc:'Un dibujo que se vende solo, sin colección detrás.'},
+  {id:'marcos', t:'Marcos de madera', tipo:'pieza', disc:['taller'], estado:'terminado', venta:ETSY, formato:'Carpintería', tono:'paper', desc:'Hechos a mano. [Medidas y maderas.]'},
+  {id:'talla', t:'[Talla en piedra]', tipo:'pieza', disc:['taller'], estado:'terminado', formato:'Escultura', desc:'[Una línea sobre la pieza.]'},
+  {id:'depuradora', t:'Depuradora de aguas grises', tipo:'pieza', disc:['taller','tierra'], estado:'terminado', formato:'Obra', temas:['permacultura'], desc:'Filtra el agua usada de casa y la lleva hasta una charca.'},
+  {id:'libreta', t:'Libreta de acuarelas', tipo:'pieza', disc:['taller'], estado:'en proceso', formato:'Cuaderno escaneado', nuevo:true, visor:true, desc:'Bocetos tal cual salen, página a página.'},
+  {id:'apuntes-guitarra', t:'Apuntes de guitarra flamenca', tipo:'pieza', disc:['musica'], estado:'terminado', formato:'PDF', desc:'Material que preparé para dar clases.', accion:'Descargar'},
+  {id:'musica-malagosto', t:'Música de Malagosto', tipo:'pieza', disc:['musica'], estado:'en proceso', formato:'Banda sonora', parte:['malagosto'], desc:'Lecuona y verdiales para defender un piso.'},
+  {id:'rap', t:'Del baúl: rap', tipo:'pieza', disc:['musica'], estado:'terminado', formato:'Canciones', desc:'Rap de hace quince años. Bajo tu responsabilidad.', accion:'Escuchar'}
+];
+const EXTERNOS = [
+  {t:'Clases de español', desc:'Español para gente de fuera, porque una lengua también es un lugar donde vivir. Todo está en [NOMBRE DE LA WEB].', accion:'Ir a la web de clases ↗'}
+];
+const byId = Object.fromEntries(ITEMS.map(i => [i.id, i]));
+/* Lo que más brilla: lo eliges tú, en este orden */
+const DESTACADOS = ['malagosto', 'gandul', 'refrankenstein', 'funcionaryo', 'eskilsua'];
+const isDest = it => DESTACADOS.includes(it.id);
+
+/* ===== Utilidades ===== */
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const ANG = [-1.1, 0.8, -0.5, 1.2, -0.8, 0.5, -1.3, 0.9];
+const DROP = [0, 28, 8, 18, 0, 36, 12, 4];
+function hash(id){ let h = 0; for (const c of id) h = (h * 31 + c.charCodeAt(0)) % 997; return h; }
+function tilt(it){ if (it.estado === 'terminado') return 0; const a = ANG[hash(it.id) % ANG.length]; return it.estado === 'idea' ? +(a * 1.3).toFixed(2) : a; }
+const stCls = it => it.estado === 'idea' ? ' is-idea' : it.estado === 'aparcado' ? ' is-aparcado' : '';
+const LEYENDA = 'recto = terminado · torcido = en proceso · punteado = idea · gris = aparcado';
+function ladder(it){
+  const steps = ['idea', 'en proceso', 'terminado'];
+  const k = steps.indexOf(it.estado);
+  return `<ol class="ladder" aria-label="Estado">${steps.map((s, i) => `<li class="${i < k ? 'done' : ''}${i === k ? ' now' : ''}"${i === k ? ' aria-current="step"' : ''}>${s}</li>`).join('')}</ol>${it.estado === 'aparcado' ? '<p class="mono muted" style="margin-top:8px">Aparcado: se quedó a medias y la puerta sigue abierta.</p>' : ''}`;
+}
+function drop(it){ return it.estado === 'terminado' ? 0 : DROP[hash(it.id) % DROP.length]; }
+const plural = (n, a, b) => n + ' ' + (n === 1 ? a : b);
+const discLink = d => DISC[d] && DISC[d].page ? `<a href="#${DISC[d].page}">${DISC[d].label}</a>` : (DISC[d] ? DISC[d].label : d);
+function estadoChip(it){ return `<span class="chip">${it.estado}</span>`; }
+
+function card(it, ctx){
+  const otros = ctx ? it.disc.filter(d => d !== ctx && DISC[d]) : [];
+  const tags = otros.map(d => `<span class="chip chip-dash">También en ${DISC[d].label}</span>`).join('');
+  return `<a class="card tone-${it.tono || 'paper'}${stCls(it)}" href="#p-${it.id}" style="--tilt:${tilt(it)}deg;--drop:${drop(it)}px">
+    <div class="ph" role="img" aria-label="Imagen de ${esc(it.t)}, pendiente">[IMAGEN]</div>
+    <div class="chips">${estadoChip(it)}${it.venta ? '<span class="chip chip-venta">A la venta</span>' : ''}${tags}</div>
+    <p class="meta">${it.tipo} · ${esc(it.formato)}</p>
+    <h3>${esc(it.t)}</h3>
+    <p class="desc">${esc(it.desc)}</p>
+  </a>`;
+}
+function note(it, showDisc){
+  const alb = hash(it.id) % 4 === 0 ? ' alb' : '';
+  const where = showDisc ? ' · ' + it.disc.map(d => DISC[d] ? DISC[d].label : d).join(', ') : '';
+  return `<a class="note${alb}${stCls(it)}" href="#p-${it.id}" style="--tilt:${tilt(it)}deg;--drop:${drop(it)}px">
+    <p class="meta">${esc(it.formato)} · ${it.estado}${it.fecha ? ' · ' + it.fecha : ''}${where}</p>
+    <h3>${esc(it.t)}</h3><p>${esc(it.desc)}</p></a>`;
+}
+function row(it){
+  const parte = (it.parte || []).map(p => byId[p]).filter(Boolean);
+  return `<article class="row">
+    <p class="row-meta">${esc(it.formato)}${it.dur ? ' · ' + esc(it.dur) : ''}</p>
+    <div class="row-main">
+      <h3><a href="#p-${it.id}">${esc(it.t)}</a></h3>
+      <p>${esc(it.desc)}</p>
+      ${parte.length ? `<p class="row-part">Forma parte de: ${parte.map(p => `<a href="#p-${p.id}">${esc(p.t)}</a>`).join(', ')}</p>` : ''}
+    </div>
+    <div class="row-acts">${it.accion ? `<a class="btn" href="#p-${it.id}">${esc(it.accion)}</a>` : ''}${it.venta ? `<a class="btn-ghost" href="#p-${it.id}">Comprar</a>` : ''}</div>
+  </article>`;
+}
+const head = (title, side) => `<div class="band-head"><h2>${title}</h2>${side ? `<p class="mono muted">${side}</p>` : ''}</div>`;
+function feature(it, big){
+  return `<article class="feat${big ? ' feat-big' : ''} tone-${it.tono || 'paper'}">
+    <a class="feat-img" href="#p-${it.id}" tabindex="-1" aria-hidden="true"><div class="ph">[IMAGEN]</div></a>
+    <div class="feat-txt">
+      <p class="meta">${esc(it.formato)}</p>
+      <h3><a href="#p-${it.id}">${esc(it.t)}</a></h3>
+      <p class="desc">${esc(it.desc)}</p>
+      <a class="btn" href="#p-${it.id}">${esc(it.accion || 'Ver')}</a>
+    </div>
+  </article>`;
+}
+function related(it){
+  const ligados = new Set([...(it.parte || []), ...ITEMS.filter(i => (i.parte || []).includes(it.id)).map(i => i.id)]);
+  const score = i => (isDest(i) ? 2 : 0) + (i.disc.some(d => it.disc.includes(d)) ? 1 : 0) + (i.estado === 'terminado' ? 0.5 : 0);
+  return ITEMS.filter(i => i.id !== it.id && !ligados.has(i.id) && (i.estado === 'terminado' || i.estado === 'en proceso'))
+    .sort((a, b) => score(b) - score(a)).slice(0, 3);
+}
+
+/* ===== Bandas comunes a cada disciplina ===== */
+function bands(disc, ovenExtra){
+  const mine = ITEMS.filter(i => i.disc.includes(disc));
+  const dest = mine.filter(isDest).sort((a, b) => DESTACADOS.indexOf(a.id) - DESTACADOS.indexOf(b.id));
+  const rest = mine.filter(i => !isDest(i));
+  const proyectos = rest.filter(i => i.tipo === 'proyecto' && (i.estado === 'en proceso' || i.estado === 'terminado'));
+  const piezas = rest.filter(i => i.tipo === 'pieza' && i.estado === 'terminado');
+  const medias = rest.filter(i => (i.estado === 'idea' || i.estado === 'aparcado' || (i.tipo === 'pieza' && i.estado === 'en proceso')) && !(ovenExtra && i.visor));
+  let h = '';
+  if (dest.length) h += `<section class="band wrap" aria-label="Destacado"><div class="feats">${dest.map((it, k) => feature(it, k === 0 && dest.length % 2 === 1)).join('')}</div></section>`;
+  if (proyectos.length) h += `<section class="band wrap" aria-label="Proyectos">${head('Proyectos', 'Lo que se sostiene solo')}<div class="cards">${proyectos.map(i => card(i, disc)).join('')}</div></section>`;
+  if (piezas.length) h += `<section class="band wrap" aria-label="Piezas sueltas">${head('Piezas sueltas', 'De una en una')}<div class="rows">${piezas.map(row).join('')}</div></section>`;
+  const nOven = medias.length + (ovenExtra ? 1 : 0);
+  if (nOven) h += `<section class="band wrap" aria-label="En el horno"><details class="oven">
+    <summary><span class="t">En el horno</span><span class="mono muted">${plural(nOven, 'cosa a medias', 'cosas a medias')}</span></summary>
+    <div class="oven-in">
+      <p class="legend" style="margin:0 0 20px">${LEYENDA}</p>
+      ${ovenExtra || ''}
+      ${medias.length ? `<div class="notes">${medias.map(i => note(i)).join('')}</div>` : ''}
+      <p style="margin-top:24px"><a href="#archivo-medias" style="font-weight:600">Ver todo lo que está a medias, en el archivo</a></p>
+    </div>
+  </details></section>`;
+  return h;
+}
+
+/* ===== Vistas ===== */
+const visor = {page:1, total:12};
+function visorHTML(){
+  const p = visor.page;
+  return `<div class="visor" id="visor" aria-label="Visor de la libreta de acuarelas">
+    <div class="visor-pages">
+      <div class="ph" role="img" aria-label="Página ${p}, pendiente de escanear">[PÁGINA ${p}]</div>
+      <div class="ph" role="img" aria-label="Página ${p + 1}, pendiente de escanear">[PÁGINA ${p + 1}]</div>
+    </div>
+    <div class="visor-ctrl">
+      <button class="btn-ghost" type="button" data-visor="prev" ${p <= 1 ? 'disabled' : ''}>← Anterior</button>
+      <span>Páginas ${p}–${p + 1} de ${visor.total} (ejemplo)</span>
+      <button class="btn-ghost" type="button" data-visor="next" ${p + 1 >= visor.total ? 'disabled' : ''}>Siguiente →</button>
+    </div>
+  </div>`;
+}
+
+function vInicio(){
+  const doors = [
+    ['escritura', 'Escritura', 'Relatos, fanzines y ejercicios de estilo.'],
+    ['juegos', 'Juegos', 'Juegos pequeños que se juegan en el navegador.'],
+    ['musica', 'Música', 'Guitarra flamenca, trompeta, teclado y voz.'],
+    ['taller', 'Taller', 'Acuarela, madera, piedra y obra hecha con las manos.'],
+    ['tienda', 'Tienda', 'Lo que se puede comprar.']
+  ];
+  const dest = DESTACADOS.map(id => byId[id]).filter(Boolean);
+  return `
+  <section class="wrap" style="padding-block:56px 44px">
+    <p class="eyebrow" style="color:var(--ink-2)">Málaga</p>
+    <h1 class="display display-xl" style="max-width:15ch">Escribo, toco, tallo, programo juegos y monto encuentros.</h1>
+    <p class="hilo">Todo va de lo mismo: de cómo uno se hace de un sitio, de una lengua, de una gente.</p>
+  </section>
+  <section class="wrap band" aria-label="Destacados">
+    <div class="feats">${dest.map((it, k) => feature(it, k === 0 && dest.length % 2 === 1)).join('')}</div>
+  </section>
+  <section class="wrap band" aria-labelledby="doors-t">
+    <h2 id="doors-t" class="mono" style="text-transform:uppercase;font-weight:600;margin-bottom:16px">Por disciplina</h2>
+    <ul class="doors">${doors.map(([id, name, what]) => `<li><a href="#${id}"><span class="name">${name}</span><span class="what">${what}</span></a></li>`).join('')}</ul>
+  </section>`;
+}
+
+const INTRO = {
+  escritura:{n:'Escritura', h:'Textos que suenan.', p:'Escribo siguiendo el ritmo de las frases, casi como quien toca: relatos largos, fanzines y algún experimento.'},
+  juegos:{n:'Juegos', h:'Se juegan en el navegador.', p:'Juegos pequeños con algo que decir: la vivienda, la oficina, los acentos.'},
+  taller:{n:'Taller', h:'Con las manos.', p:'Acuarela, madera, piedra y alguna obra de albañilería. Lo que se vende, se vende también en la tienda.'}
+};
+function vDisc(d){
+  const i = INTRO[d];
+  const oven = d === 'taller' ? `<div style="margin-bottom:28px"><p class="mono muted" style="margin-bottom:12px">Libreta de acuarelas · bocetos sin pulir</p>${visorHTML()}</div>` : '';
+  return `<section class="wrap hero">
+    <div><p class="eyebrow">${i.n}</p><h1 class="display">${i.h}</h1></div>
+    <div class="hero-side"><p class="lede">${i.p}</p></div>
+  </section>${bands(d, oven)}`;
+}
+
+function vMusica(){
+  const inst = [
+    ['Guitarra', 'Flamenco y otros estilos · desde [AÑO]', '[Dos o tres líneas sobre tu relación con la guitarra: dónde empezaste, qué palos te tiran, qué tocas cuando nadie escucha.]', true],
+    ['Trompeta', 'Y antes, trombón · desde [AÑO]', '[Dos o tres líneas: banda, calle, jazz… lo que haya sido.]', false],
+    ['Teclado', 'Ableton · aprendiendo', '[Lo más reciente: producir, bocetos y la música de los juegos.]', false],
+    ['Voz', 'Clases de canto · este año', '[Dos o tres líneas sobre empezar a cantar.]', false]
+  ];
+  const piezas = ITEMS.filter(i => i.disc.includes('musica'));
+  return `<section class="wrap hero" style="padding-bottom:16px">
+    <div><p class="eyebrow">Música</p><h1 class="display">Lo que toco.</h1></div>
+    <div class="hero-side"><p class="lede">No hay discos. Hay instrumentos que me acompañan desde hace años; los vídeos irán apareciendo según los grabe.</p></div>
+  </section>
+  ${inst.map(([n, m, p, v], k) => `<section class="wrap inst${k % 2 ? ' right' : ''}" aria-label="${n}">
+    <div><p class="mono muted">${m}</p><h2 ${k === 2 ? 'style="color:var(--accent)"' : ''}>${n}</h2><p class="lede">${p}</p></div>
+    ${v ? `<div><div class="video" role="img" aria-label="Vídeo pendiente de grabar"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--albero)" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M10 8.5v7l5.5-3.5z"/></svg>[VÍDEO · cuando lo grabes]</div></div>` : ''}
+  </section>`).join('')}
+  <section class="wrap band" style="padding-top:40px">${head('Piezas', 'Grabaciones, partituras y apuntes')}<div class="rows">${piezas.map(row).join('')}</div></section>`;
+}
+
+function vTienda(){
+  const venta = ITEMS.filter(i => i.venta);
+  const enProyecto = venta.filter(i => i.tipo === 'proyecto' || (i.parte && i.parte.length));
+  const sueltas = venta.filter(i => !enProyecto.includes(i));
+  const prod = it => {
+    const parte = (it.parte || []).map(p => byId[p]).filter(Boolean);
+    return `<article class="row">
+      <p class="row-meta">${esc(it.formato)}<br>${esc(it.venta.precio)}</p>
+      <div class="row-main"><h3><a href="#p-${it.id}">${esc(it.t)}</a></h3><p>${esc(it.desc)}</p>
+      <p class="row-part">${it.tipo}${parte.length ? ' de ' + parte.map(p => `<a href="#p-${p.id}">${esc(p.t)}</a>`).join(', ') : ''} · ${esc(it.venta.canal)} · ${it.estado}</p></div>
+      <div class="row-acts"><a class="btn" href="#p-${it.id}">Ver y comprar</a></div>
+    </article>`;
+  };
+  return `<section class="wrap hero">
+    <div><p class="eyebrow">Tienda</p><h1 class="display">Para llevarse.</h1></div>
+    <div class="hero-side"><p class="lede">Todo lo que se puede comprar, sea una pieza suelta o un proyecto entero. Cada cosa enlaza a su ficha. Los fanzines en papel se piden escribiéndome y se pagan por Bizum.</p></div>
+  </section>
+  <section class="wrap band">${head('De un proyecto', 'Colecciones y lo que sale de ellas')}<div class="rows">${enProyecto.map(prod).join('')}</div></section>
+  <section class="wrap band">${head('Sueltas', 'Productos que no necesitan colección')}<div class="rows">${sueltas.map(prod).join('')}</div></section>`;
+}
+
+const ESTADOS = [['idea', 'Ideas'], ['en proceso', 'En proceso'], ['aparcado', 'Aparcadas'], ['terminado', 'Terminadas']];
+const allEstados = () => new Set(ESTADOS.map(e => e[0]));
+const arch = {q:'', tipo:'todo', disc:'todo', estados:allEstados(), venta:false};
+function scoreHTML(){
+  const all = arch.estados.size === ESTADOS.length;
+  return `<div class="score" role="group" aria-label="Marcador: filtra por estado">${ESTADOS.map(([v, l]) => {
+    const n = ITEMS.filter(i => i.estado === v).length;
+    return `<button type="button" class="tile${v === 'idea' ? ' is-idea' : v === 'aparcado' ? ' is-aparcado' : ''}" data-st="${v}" aria-pressed="${!all && arch.estados.has(v)}"><b>${n}</b><span>${l}</span></button>`;
+  }).join('')}</div>`;
+}
+const ARCH_OPTS = {
+  tipo:[['todo', 'Todo'], ['pieza', 'Piezas sueltas'], ['proyecto', 'Proyectos']],
+  disc:[['todo', 'Todas'], ...Object.entries(DISC).map(([k, v]) => [k, v.label])]
+};
+const norm = s => String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+function archList(){
+  const q = norm(arch.q.trim());
+  return ITEMS.filter(i =>
+    (arch.tipo === 'todo' || i.tipo === arch.tipo) &&
+    (arch.disc === 'todo' || i.disc.includes(arch.disc)) &&
+    arch.estados.has(i.estado) &&
+    (!arch.venta || i.venta) &&
+    (!q || norm([i.t, i.desc, i.formato, (i.temas || []).join(' ')].join(' ')).includes(q))
+  );
+}
+function archResults(){
+  const list = archList();
+  const n = list.length;
+  let h = `<div class="arch-foot" style="border:0;padding:0;margin-bottom:6px"><p class="mono muted" aria-live="polite">${plural(n, 'resultado', 'resultados')}</p></div>`;
+  if (!n) return h + `<p class="empty" style="padding-block:24px">No hay nada que cumpla todo eso. <button class="btn-ghost" type="button" data-arch-clear>Quitar filtros</button></p>`;
+  const groups = {};
+  list.forEach(i => { const k = i.fecha || 'Sin fecha'; (groups[k] = groups[k] || []).push(i); });
+  const keys = Object.keys(groups).sort((a, b) => (a === 'Sin fecha') - (b === 'Sin fecha') || b - a);
+  keys.forEach(k => {
+    h += `<h2 class="arch-year">${k}</h2>`;
+    h += groups[k].map(i => {
+      const parte = (i.parte || []).map(p => byId[p]).filter(Boolean);
+      return `<a class="arow" href="#p-${i.id}">
+        <div class="athumb tone-${i.tono || 'paper'}${stCls(i)}" style="--tilt:${tilt(i)}deg" aria-hidden="true"></div>
+        <div>
+          <h3>${esc(i.t)}</h3>
+          <div class="meta"><span class="chip">${i.tipo === 'proyecto' ? 'Proyecto' : 'Pieza'}</span><span class="chip">${i.estado}</span>${i.venta ? '<span class="chip chip-venta">A la venta</span>' : ''}</div>
+          <p class="sub">${esc(i.formato)} · ${i.disc.map(d => DISC[d].label).join(', ')}${parte.length ? ' · de ' + parte.map(p => esc(p.t)).join(', ') : ''}</p>
+        </div>
+      </a>`;
+    }).join('');
+  });
+  return h;
+}
+function archGroup(key, label){
+  return `<div class="fgroup" role="group" aria-label="${label}"><span>${label}</span>${ARCH_OPTS[key].map(([v, l]) => `<button type="button" class="fbtn" data-ak="${key}" data-av="${v}" aria-pressed="${arch[key] === v}">${l}</button>`).join('')}</div>`;
+}
+function vArchivo(){
+  return `<section class="wrap" style="padding-block:32px 22px">
+    <p class="eyebrow">Archivo</p>
+    <h1 class="display" style="font-size:clamp(34px, 4.4vw, 56px)">Todo lo que hay.</h1>
+  </section>
+  <section class="wrap band">
+    <div class="arch-tools">
+      <label class="sr-only" for="arch-q">Buscar en el archivo</label>
+      <input class="arch-q" id="arch-q" type="search" placeholder="Buscar por título, tema o formato" value="${esc(arch.q)}" autocomplete="off">
+      ${scoreHTML()}
+      ${archGroup('tipo', 'Tipo')}
+      ${archGroup('disc', 'Disciplina')}
+      <div class="arch-foot">
+        <label class="check" for="arch-venta"><input type="checkbox" id="arch-venta" ${arch.venta ? 'checked' : ''}> Solo lo que se puede comprar</label>
+        <button class="btn-ghost" type="button" data-arch-clear>Quitar filtros</button>
+      </div>
+    </div>
+    <div id="arch-results">${archResults()}</div>
+  </section>`;
+}
+function archUpdate(){
+  const box = document.getElementById('arch-results');
+  if (box) box.innerHTML = archResults();
+  const sc = document.querySelector('.score'); if (sc) sc.outerHTML = scoreHTML();
+  document.querySelectorAll('[data-ak]').forEach(b => b.setAttribute('aria-pressed', String(arch[b.dataset.ak] === b.dataset.av)));
+  const v = document.getElementById('arch-venta'); if (v) v.checked = arch.venta;
+  const q = document.getElementById('arch-q'); if (q && q.value !== arch.q) q.value = arch.q;
+}
+
+function vSobre(){
+  return `<section class="wrap hero">
+    <div><p class="eyebrow">Bio</p><h1 class="display">Muchas cosas, un hilo.</h1></div>
+    <div class="hero-side"><p class="lede">Escribo, toco, tallo, programo juegos, doy clases y monto encuentros. Cambia el formato; la pregunta es siempre cómo uno se hace de un sitio.</p></div>
+  </section>
+  <section class="wrap split" style="padding-top:0">
+    <div><p class="lede">[Tu bio, en tus palabras. Dos o tres párrafos: de dónde vienes, qué te mueve, por qué todo esto está junto y desordenado.]</p></div>
+    <div>
+      <p class="mono muted" style="text-transform:uppercase">Escríbeme</p>
+      <div class="copyrow"><code id="email-text">[EMAIL DE CONTACTO]</code><button class="btn-ghost" type="button" id="copy-email">Copiar</button></div>
+      <p id="copy-msg" class="mono muted" style="margin-top:8px" aria-live="polite"></p>
+      <p style="margin-top:22px"><a href="https://www.instagram.com/angel.pocoaprieta/" style="font-weight:600">Instagram @angel.pocoaprieta</a></p>
+      <p style="margin-top:8px"><a href="#sobre-mi" style="font-weight:600">Clases de español: [WEB DE CLASES] ↗</a></p>
+    </div>
+  </section>`;
+}
+
+function vFicha(it){
+  const casa = it.disc.find(d => DISC[d] && DISC[d].page);
+  const parte = (it.parte || []).map(p => byId[p]).filter(Boolean);
+  const hijos = it.tipo === 'proyecto' ? ITEMS.filter(i => (i.parte || []).includes(it.id)) : [];
+  return `<p class="wrap crumbs"><a href="#${casa ? DISC[casa].page : 'archivo'}">${casa ? DISC[casa].label : 'Archivo'}</a> / ${it.tipo === 'proyecto' ? 'proyecto' : 'pieza'}</p>
+  <section class="wrap ficha tone-${it.tono || 'paper'}" style="background:transparent;color:var(--ink)">
+    <div class="ficha-img">${it.visor ? visorHTML() : `<div class="ph" role="img" aria-label="Imagen de ${esc(it.t)}, pendiente" style="--tilt:${tilt(it)}deg">[IMAGEN]</div>`}</div>
+    <div class="ficha-txt">
+      <p class="eyebrow">${it.tipo} · ${esc(it.formato)}</p>
+      <h1>${esc(it.t)}</h1>
+      <div class="chips">${estadoChip(it)}${it.venta ? '<span class="chip chip-venta">A la venta</span>' : ''}${(it.temas || []).map(t => `<span class="chip chip-dash">${esc(t)}</span>`).join('')}</div>
+      <p class="lede">${esc(it.desc)}</p>
+      ${it.accion ? `<div class="ficha-acts"><a class="btn" href="#p-${it.id}">${esc(it.accion)}</a></div>` : ''}
+      ${it.venta ? `<div class="buybox"><div><p class="mono muted" style="text-transform:uppercase">Se compra en</p><p style="font-weight:600;font-size:19px">${esc(it.venta.canal)} · ${esc(it.venta.precio)}</p></div><a class="btn btn-accent" href="#p-${it.id}">Comprar</a></div>` : ''}
+      <dl class="facts">
+        <dt>Disciplina</dt><dd>${it.disc.map(discLink).join(', ')}</dd>
+        <dt>Estado</dt><dd>${ladder(it)}</dd>
+        ${parte.length ? `<dt>Forma parte de</dt><dd>${parte.map(p => `<a href="#p-${p.id}">${esc(p.t)}</a>`).join(', ')}</dd>` : ''}
+        ${it.fecha ? `<dt>Fecha</dt><dd>${it.fecha}</dd>` : ''}
+      </dl>
+    </div>
+  </section>
+  ${it.tipo === 'proyecto' ? `<section class="wrap band">${head('Dentro de este proyecto', plural(hijos.length, 'pieza', 'piezas'))}${hijos.length ? `<div class="rows">${hijos.map(row).join('')}</div>` : '<p class="empty">Todavía no hay piezas publicadas de este proyecto.</p>'}</section>` : ''}
+  <section class="wrap band" aria-label="Relacionados">${head('Si te gusta esto', 'Más cosas que brillan')}<div class="cards">${related(it).map(i => card(i)).join('')}</div></section>`;
+}
+
+function v404(){
+  return `<section class="wrap hero"><div><p class="eyebrow">Perdido</p><h1 class="display">Aquí no hay nada.</h1></div>
+  <div class="hero-side"><p class="lede">Esta página no existe, o todavía no. <a href="#inicio">Vuelve a la portada</a>.</p></div></section>`;
+}
+
+/* ===== Navegación ===== */
+const main = document.getElementById('main');
+const navLinks = document.getElementById('nav-links');
+const menuBtn = document.getElementById('menu-btn');
+function route(){ return (location.hash || '#inicio').slice(1) || 'inicio'; }
+function render(keepScroll){
+  const r = route();
+  let html, section = r;
+  if (r === 'inicio') html = vInicio();
+  else if (r === 'escritura' || r === 'juegos' || r === 'taller') html = vDisc(r);
+  else if (r === 'musica') html = vMusica();
+  else if (r === 'tienda') html = vTienda();
+  else if (r === 'archivo') html = vArchivo();
+  else if (r === 'archivo-medias') { Object.assign(arch, {q:'', tipo:'todo', disc:'todo', estados:new Set(['idea', 'en proceso', 'aparcado']), venta:false}); html = vArchivo(); section = 'archivo'; }
+  else if (r === 'bio' || r === 'sobre-mi') { html = vSobre(); section = 'bio'; }
+  else if (r.startsWith('p-') && byId[r.slice(2)]) { const it = byId[r.slice(2)]; html = vFicha(it); section = (it.disc.find(d => DISC[d] && DISC[d].page) && DISC[it.disc.find(d => DISC[d] && DISC[d].page)].page) || 'archivo'; }
+  else html = v404();
+  main.innerHTML = html;
+  navLinks.querySelectorAll('a').forEach(a => {
+    if (a.getAttribute('href') === '#' + section) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
+  });
+  navLinks.classList.remove('open'); menuBtn.setAttribute('aria-expanded', 'false');
+  if (!keepScroll) window.scrollTo(0, 0);
+}
+window.addEventListener('hashchange', () => { visor.page = 1; render(false); });
+
+menuBtn.addEventListener('click', () => {
+  const open = navLinks.classList.toggle('open');
+  menuBtn.setAttribute('aria-expanded', String(open));
+});
+
+document.addEventListener('click', e => {
+  const f = e.target.closest('[data-ak]');
+  if (f){ arch[f.dataset.ak] = f.dataset.av; archUpdate(); return; }
+  const st = e.target.closest('[data-st]');
+  if (st){
+    const v = st.dataset.st;
+    if (arch.estados.size === ESTADOS.length) arch.estados = new Set([v]);
+    else { if (arch.estados.has(v)) arch.estados.delete(v); else arch.estados.add(v); if (!arch.estados.size) arch.estados = allEstados(); }
+    archUpdate(); const nb = document.querySelector(`[data-st="${v}"]`); if (nb) nb.focus(); return;
+  }
+  if (e.target.closest('[data-arch-clear]')){ Object.assign(arch, {q:'', tipo:'todo', disc:'todo', estados:allEstados(), venta:false}); archUpdate(); const q = document.getElementById('arch-q'); if (q) q.focus(); return; }
+  const j = e.target.closest('[data-jump]');
+  if (j){ const t = document.getElementById(j.dataset.jump); if (t){ const y = t.getBoundingClientRect().top + window.scrollY - document.querySelector('.top').offsetHeight - 8; window.scrollTo({top:y, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'}); } return; }
+  const v = e.target.closest('[data-visor]');
+  if (v){
+    visor.page = Math.max(1, Math.min(visor.total - 1, visor.page + (v.dataset.visor === 'next' ? 2 : -2)));
+    const box = document.getElementById('visor');
+    if (box){ box.outerHTML = visorHTML(); const nb = document.querySelector(`#visor [data-visor="${v.dataset.visor}"]`); if (nb && !nb.disabled) nb.focus(); }
+    return;
+  }
+  if (e.target.id === 'copy-email'){
+    const txt = document.getElementById('email-text');
+    const msg = document.getElementById('copy-msg');
+    const sel = () => { const r = document.createRange(); r.selectNodeContents(txt); const s = getSelection(); s.removeAllRanges(); s.addRange(r); msg.textContent = 'Seleccionado. Cópialo con tu teclado.'; };
+    try { navigator.clipboard.writeText(txt.textContent).then(() => { msg.textContent = 'Copiado.'; }, sel); } catch (err) { sel(); }
+  }
+});
+document.addEventListener('change', e => {
+  if (e.target.id === 'arch-venta'){ arch.venta = e.target.checked; archUpdate(); }
+});
+document.addEventListener('input', e => {
+  if (e.target.id === 'arch-q'){ arch.q = e.target.value; const box = document.getElementById('arch-results'); if (box) box.innerHTML = archResults(); }
+});
+
+render(false);
+</script>
+
+</body></html>
