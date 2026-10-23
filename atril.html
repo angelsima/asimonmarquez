@@ -555,24 +555,41 @@ const SAFE_URL=u=>/^https?:\/\//i.test(u||"")?u:"";
 /* ---------- música: acordes ---------- */
 const SH=["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"];
 const FL=["C","Db","D","Eb","E","F","Gb","G","Ab","A","Bb","B"];
-const PC={C:0,D:2,E:4,F:5,G:7,A:9,B:11};
-const CH_RE=/^([A-G])([#b♯♭]?)([^/\s]*)(?:\/([A-G])([#b♯♭]?))?$/;
+const SHL=["Do","Do#","Re","Re#","Mi","Fa","Fa#","Sol","Sol#","La","La#","Si"];
+const FLL=["Do","Reb","Re","Mib","Mi","Fa","Solb","Sol","Lab","La","Sib","Si"];
+const PC={C:0,D:2,E:4,F:5,G:7,A:9,B:11,DO:0,RE:2,MI:4,FA:5,SOL:7,LA:9,SI:11};
+/* notación americana (C D E…) y latina (Do Re Mi…, también DO RE MI) */
+const LAT_N="Do|DO|Re|RE|Mi|MI|Fa|FA|Sol|SOL|La|LA|Si|SI";
+const CH_US=/^([A-G])([#b♯♭]?)([^/\s]*)(?:\/([A-G])([#b♯♭]?))?$/;
+const CH_LA=new RegExp("^("+LAT_N+")([#b♯♭]?)([^/\\s]*)(?:\\/("+LAT_N+")([#b♯♭]?))?$");
+const ROOT_PAT="(?:"+LAT_N+"|[A-G])";
 const SUF_RE=/^(?:maj|min|dim|aug|sus|add|alt|m|M|°|ø|Δ|\+|-|[0-9]|b|#|♭|♯|\(|\)|,|\*)*$/;
-function isChord(t){const m=String(t).match(CH_RE);return !!m&&SUF_RE.test(m[3])}
-function pcOf(l,a){let p=PC[l];if(a==="#"||a==="♯")p++;if(a==="b"||a==="♭")p--;return (p+12)%12}
-function flatKey(key){const m=String(key||"").trim().match(/^([A-G])([#b♯♭]?)(m(?!aj))?/);if(!m)return null;const p=pcOf(m[1],m[2]);return m[3]?[2,7,0,5,10,3].includes(p):[5,10,3,8,1,6].includes(p)}
-function trChord(sym,n,flats){const m=sym.match(CH_RE);if(!m||!SUF_RE.test(m[3]))return sym;const N=flats?FL:SH;let s=N[(pcOf(m[1],m[2])+n+12)%12]+m[3];if(m[4])s+="/"+N[(pcOf(m[4],m[5])+n+12)%12];return s}
-function trKey(key,n){if(!key)return "";const m=key.match(CH_RE);if(!m)return key;const tmp=SH[(pcOf(m[1],m[2])+n+12)%12]+m[3];const fl=flatKey(tmp);return trChord(key,n,fl)}
-function pretty(sym){return esc(sym).replace(/^([A-G])b/,"$1♭").replace(/^([A-G])#/,"$1♯").replace(/\/([A-G])b/,"/$1♭").replace(/\/([A-G])#/,"/$1♯")}
+/* devuelve el análisis del acorde en el mismo formato que un match: [todo, raíz, alteración, sufijo, bajo, alt. bajo] + .lat */
+function chordParts(t){t=String(t);for(const re of [CH_US,CH_LA]){const m=t.match(re);if(m&&SUF_RE.test(m[3])){m.lat=re===CH_LA;return m}}return null}
+function isChord(t){return !!chordParts(t)}
+const isBareLat=t=>new RegExp("^(?:"+LAT_N+")$").test(t);
+function pcOf(l,a){let p=PC[String(l).toUpperCase()];if(a==="#"||a==="♯")p++;if(a==="b"||a==="♭")p--;return (p+12)%12}
+function flatKey(key){const m=chordParts(String(key||"").trim());if(!m)return null;const p=pcOf(m[1],m[2]);return /^m(?!aj)/.test(m[3])?[2,7,0,5,10,3].includes(p):[5,10,3,8,1,6].includes(p)}
+/* transporta conservando la notación de cada acorde (Lam → Rem, Am → Dm) y las mayúsculas (SOL7 → DO7) */
+function trChord(sym,n,flats){
+  const m=chordParts(sym);if(!m)return sym;
+  const N=m.lat?(flats?FLL:SHL):(flats?FL:SH);const up=m.lat&&m[1]===m[1].toUpperCase();const nm=x=>up?x.toUpperCase():x;
+  let s=nm(N[(pcOf(m[1],m[2])+n+12)%12])+m[3];
+  if(m[4])s+="/"+nm(N[(pcOf(m[4],m[5])+n+12)%12]);
+  return s}
+function trKey(key,n){if(!key)return "";const m=chordParts(key);if(!m)return key;const tmp=SH[(pcOf(m[1],m[2])+n+12)%12]+m[3];const fl=flatKey(tmp);return trChord(key,n,fl)}
+const PR_B=new RegExp("^("+ROOT_PAT+")b"),PR_S=new RegExp("^("+ROOT_PAT+")#"),PR_BB=new RegExp("/("+ROOT_PAT+")b"),PR_SB=new RegExp("/("+ROOT_PAT+")#");
+const prettyAcc=t=>t.replace(PR_B,"$1♭").replace(PR_S,"$1♯").replace(PR_BB,"/$1♭").replace(PR_SB,"/$1♯");
+function pretty(sym){return prettyAcc(esc(sym))}
 /* Si la letra viene con los acordes en la línea de arriba, se convierte sola al formato [Acorde]sílaba */
-function normBody(b){b=String(b||"");return b.split(/\r?\n/).some(isChordLine)?convertAbove(b):b}
+function normBody(b){b=String(b||"");const L=b.split(/\r?\n/);return L.some((l,i)=>isChordLine(l,L[i+1]))?convertAbove(b):b}
 function keyOf(s){
   if(s.key)return s.key;
   const m=normBody(s.body).match(/\[([^\]]+)\]/);if(!m)return "";
-  const c=m[1].trim().match(CH_RE);if(!c||!SUF_RE.test(c[3]))return "";
+  const c=chordParts(m[1].trim());if(!c)return "";
   return c[1]+c[2]+(/^(m|min|-)(?!aj)/.test(c[3])?"m":"");
 }
-function songFlats(song,n){const k=trKey(keyOf(song),n);const f=flatKey(k);if(f!==null)return f;return /\[[A-G]b/.test(normBody(song.body))}
+function songFlats(song,n){const k=trKey(keyOf(song),n);const f=flatKey(k);if(f!==null)return f;return new RegExp("\\[(?:"+ROOT_PAT+")b").test(normBody(song.body))}
 
 /* Render ChordPro sencillo: [Am]letra, # Sección, {c: comentario} */
 function renderChart(body,n,flats){
@@ -601,15 +618,27 @@ function renderChart(body,n,flats){
   return out.join("");
 }
 /* Convierte "acordes encima de la letra" (estilo lacuerda) a [Am]letra */
-function isChordLine(l){const t=l.trim().split(/\s+/).filter(Boolean);return t.length>0&&t.every(x=>isChord(x)||/^[|%x\d().-]+$/.test(x))&&t.some(isChord)}
+/* "La", "Si", "Sol", "Mi"… también son palabras de una letra: una línea solo de nombres latinos desnudos
+   cuenta como acordes si hay más de uno distinto ("Do Sol La") o si justo debajo hay letra; "La la la" no cuenta */
+function isChordLine(l,next){
+  const t=l.trim().split(/\s+/).filter(Boolean);
+  if(!(t.length>0&&t.every(x=>isChord(x)||/^[|%x\d().-]+$/.test(x))&&t.some(isChord)))return false;
+  const ch=t.filter(isChord);
+  if(ch.every(isBareLat)){
+    if(new Set(ch).size>1)return true;
+    if(ch.length>1)return false;
+    return next!==undefined&&!!next.trim()&&!isChordLine(next)&&!/^\s*#/.test(next);
+  }
+  return true;
+}
 function convertAbove(text){
   const L=String(text).replace(/\t/g,"    ").split(/\r?\n/);const out=[];
   for(let i=0;i<L.length;i++){
     const l=L[i];
-    if(isChordLine(l)){
+    if(isChordLine(l,L[i+1])){
       const pos=[];const re=/\S+/g;let m;while((m=re.exec(l)))if(isChord(m[0]))pos.push([m.index,m[0]]);
       const nx=L[i+1];
-      if(nx!==undefined&&nx.trim()&&!isChordLine(nx)&&!/^\s*#/.test(nx)){
+      if(nx!==undefined&&nx.trim()&&!isChordLine(nx,L[i+2])&&!/^\s*#/.test(nx)){
         let ly=nx;const maxP=pos.length?pos[pos.length-1][0]:0;if(ly.length<maxP)ly=ly.padEnd(maxP," ");
         for(let k=pos.length-1;k>=0;k--){const [p,c]=pos[k];ly=ly.slice(0,p)+"["+c+"]"+ly.slice(p)}
         out.push(ly.replace(/\s+$/,""));i++;
@@ -653,7 +682,7 @@ function parseProg(text,keyPc){
 }
 const QUAL={"":[0,4,7],"M":[0,4,7],"m":[0,3,7],"min":[0,3,7],"-":[0,3,7],"5":[0,7],"7":[0,4,7,10],"maj7":[0,4,7,11],"M7":[0,4,7,11],"Δ":[0,4,7,11],"Δ7":[0,4,7,11],"m7":[0,3,7,10],"-7":[0,3,7,10],"min7":[0,3,7,10],"6":[0,4,7,9],"m6":[0,3,7,9],"69":[0,4,9,14],"m7b5":[0,3,6,10],"ø":[0,3,6,10],"ø7":[0,3,6,10],"dim":[0,3,6],"°":[0,3,6],"dim7":[0,3,6,9],"°7":[0,3,6,9],"aug":[0,4,8],"+":[0,4,8],"sus4":[0,5,7],"sus":[0,5,7],"sus2":[0,2,7],"7sus4":[0,5,7,10],"9":[0,4,10,14],"m9":[0,3,10,14],"maj9":[0,4,11,14],"add9":[0,4,7,14],"7b9":[0,4,10,13],"7#9":[0,4,10,15],"13":[0,4,10,21],"m(maj7)":[0,3,7,11],"mmaj7":[0,3,7,11],"m11":[0,3,10,17]};
 function chordInfo(sym){
-  const m=String(sym).match(CH_RE);if(!m)return null;
+  const m=chordParts(sym);if(!m)return null;
   const root=pcOf(m[1],m[2]);const q=m[3];let ints=QUAL[q];
   if(!ints){const minor=/^(m|min|-)(?!aj)/.test(q);ints=minor?[0,3,7]:[0,4,7];if(/maj7|M7|Δ/.test(q))ints=ints.concat(11);else if(/7/.test(q))ints=ints.concat(10);if(/b5/.test(q))ints=ints.map(x=>x===7?6:x);if(/9/.test(q))ints=ints.concat(14);if(/6/.test(q))ints=ints.concat(9)}
   return {root,ints,bass:m[4]?pcOf(m[4],m[5]):root};
@@ -956,7 +985,7 @@ function viewSongs(){
   <article class="sheet">${song?sheetHTML(song):all.length?`<div class="empty"><h3>Elige una canción</h3>Ábrela para ver letra y acordes, cambiar de tono o marcarla como sabida.</div>`:emptySongs()}</article>
   </section>`;
 }
-function emptySongs(){return `<div class="empty"><h3>Tu cancionero está vacío</h3><p>Añade la primera canción. Puedes pegar la letra con los acordes encima, tal cual la copias de una web de acordes, y El Atril la convierte para que los acordes vayan sobre cada sílaba y se puedan transportar.</p><button class="btn pri" data-act="newSong">+ Añadir canción</button></div>`}
+function emptySongs(){return `<div class="empty"><h3>Tu cancionero está vacío</h3><p>Añade la primera canción. Puedes pegar la letra con los acordes encima, tal cual la copias de una web de acordes (vale Am G F o Lam Sol Fa), y El Atril la convierte para que los acordes vayan sobre cada sílaba y se puedan transportar.</p><button class="btn pri" data-act="newSong">+ Añadir canción</button></div>`}
 function sheetHTML(s){
   const n=trOf(s);const saved=+s.myShift||0;const flats=songFlats(s,n);const key=trKey(keyOf(s),n);
   const links=(s.links||[]).filter(l=>SAFE_URL(l.url));
@@ -1101,7 +1130,7 @@ function drawWheel(){
   const p=PRESETS.find(x=>x.id===w.preset);$("#wTip").innerHTML=p?p.tip:"Progresión propia. Escríbela en grados (I, ii7, V7, bVII…) para poder cambiarla de tonalidad.";
   $("#wCur").textContent=pr.bars[0]?prettyTxt(pr.bars[0][0]):"—";$("#wNext").textContent=pr.bars[1]?prettyTxt(pr.bars[1][0]):"—";
 }
-const prettyTxt=s=>String(s||"").replace(/^([A-G])b/,"$1♭").replace(/^([A-G])#/,"$1♯").replace(/\/([A-G])b/,"/$1♭");
+const prettyTxt=s=>prettyAcc(String(s||""));
 function metroCfg(){const m=S.metro;const [n,d]=m.meter.split("/").map(Number);let groups=[0];if(d===8){groups={5:[0,3],6:[0,3],7:[0,2,4],9:[0,3,6],12:[0,3,6,9]}[n]||[0]}return {bpm:+m.bpm,bpb:n,sub:+m.sub,accent:m.accent,groups}}
 function drawDots(){const c=metroCfg();$("#mDots").innerHTML=Array.from({length:c.bpb},(_,i)=>`<i class="${c.groups.includes(i)?"acc":""}"></i>`).join("")}
 function initPractice(){
@@ -1491,7 +1520,7 @@ function songForm(s){
     <label class="f">Artista<input type="text" id="fArtist" value="${esc(s.artist||"")}"></label>
     <label class="f">Estado<select id="fStatus">${Object.entries(STATUS).map(([k,l])=>`<option value="${k}" ${s.status===k?"selected":""}>${l}</option>`).join("")}</select></label>
     <label class="f">Estilo<input type="text" id="fStyle" value="${esc(s.style||"")}" placeholder="rumba, bossa, pop…"></label>
-    <label class="f">Tono<input type="text" id="fKey" value="${esc(s.key||"")}" placeholder="vacío = se detecta"></label>
+    <label class="f">Tono<input type="text" id="fKey" value="${esc(s.key||"")}" placeholder="vacío = se detecta (Am o Lam)"></label>
     <label class="f">Cejilla<input type="number" id="fCapo" min="0" max="12" value="${esc(s.capo||"")}"></label>
     <label class="f">Tempo (bpm)<input type="number" id="fBpm" min="30" max="300" value="${esc(s.bpm||"")}"></label>
     <label class="f">Compás<select id="fSig">${["4/4","3/4","2/4","6/8","12/8"].map(x=>`<option ${s.timeSig===x?"selected":""}>${x}</option>`).join("")}</select></label>
