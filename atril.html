@@ -799,7 +799,7 @@ const COLS=["songs","sets","resources"];
 /* ---- Firebase (proyecto "mis-cosas") ----
    Pega aquí el firebaseConfig de tu proyecto (el mismo que usa la percu).
    Mientras sea null, El Atril guarda solo en este navegador. */
-const firebaseConfig = {
+const FIREBASE_CONFIG = {
   apiKey: "AIzaSyBsEgOYVG2vfnlCfSUMDRi_9aQ4BBZ0JD0",
   authDomain: "mis-pruebas-eb8f8.firebaseapp.com",
   projectId: "mis-pruebas-eb8f8",
@@ -812,13 +812,15 @@ const FB_VER="10.12.2";
 const FB_PATH=uid=>"users/"+uid+"/atril_";   /* users/<uid>/atril_songs, atril_sets, atril_resources */
 const FB={ready:false,auth:null,fdb:null,user:null,asked:false};
 const FB_ERR={"auth/invalid-credential":"Correo o contraseña incorrectos.","auth/wrong-password":"Correo o contraseña incorrectos.","auth/user-not-found":"Correo o contraseña incorrectos.","auth/invalid-email":"Ese correo no parece válido.","auth/too-many-requests":"Demasiados intentos. Espera un poco y vuelve a probar.","auth/network-request-failed":"Sin conexión. Prueba de nuevo cuando tengas red.","auth/user-disabled":"Esta cuenta está desactivada."};
-const fbOn=()=>!!(FIREBASE_CONFIG&&FIREBASE_CONFIG.apiKey);
+/* acepta la constante con cualquiera de los dos nombres (FIREBASE_CONFIG o firebaseConfig) */
+const fbCfg=()=>{try{if(typeof FIREBASE_CONFIG!=="undefined"&&FIREBASE_CONFIG)return FIREBASE_CONFIG}catch(e){}try{if(typeof firebaseConfig!=="undefined"&&firebaseConfig)return firebaseConfig}catch(e){}return null};
+const fbOn=()=>{const c=fbCfg();return !!(c&&c.apiKey)};
 function loadScript(src){return new Promise((res,rej)=>{const t=document.createElement("script");t.src=src;t.onload=res;t.onerror=()=>rej(new Error("No se pudo cargar "+src));document.head.appendChild(t)})}
 async function fbInit(){
   if(!fbOn())return false;if(FB.ready)return true;
   try{
     for(const m of ["app","auth","firestore"])await loadScript(`https://www.gstatic.com/firebasejs/${FB_VER}/firebase-${m}-compat.js`);
-    if(!firebase.apps.length)firebase.initializeApp(FIREBASE_CONFIG);
+    if(!firebase.apps.length)firebase.initializeApp(fbCfg());
     FB.auth=firebase.auth();FB.fdb=firebase.firestore();
     try{await FB.fdb.enablePersistence({synchronizeTabs:true})}catch(e){}   /* funciona sin cobertura con lo ya cargado */
     FB.ready=true;return true;
@@ -1773,7 +1775,7 @@ $("#stage").addEventListener("touchend",e=>{if(!tx)return;const dx=e.changedTouc
 document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible"&&S.stage)lockScreen()});
 
 addEventListener("resize",()=>{if(S.tab==="studio")drawWave()});
-render();Store.init();
+render();Store.init().catch(e=>{console.error(e);const m=$("#mode");if(m)m.textContent="Error al iniciar: "+(e&&e.message||e)});
 </script>
 </body>
 </html>
