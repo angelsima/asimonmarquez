@@ -137,10 +137,19 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 
 /* Lista */
 .arch-year{font-size:26px;font-weight:700;letter-spacing:-.02em;padding-block:26px 8px}
-.arow{display:grid;grid-template-columns:64px minmax(0, 1fr);gap:16px;align-items:start;padding-block:16px;border-bottom:1.5px solid var(--line)}
+.arow{display:grid;grid-template-columns:88px minmax(0, 1fr);gap:16px;align-items:start;padding-block:16px;border-bottom:1.5px solid var(--line)}
 .arch-year + .arow,.arow:first-child{border-top:1.5px solid var(--line)}
-@media (max-width:520px){.arow{grid-template-columns:48px minmax(0, 1fr);gap:12px}}
+@media (max-width:520px){.arow{grid-template-columns:64px minmax(0, 1fr);gap:12px}}
 .athumb{aspect-ratio:1/1;border:1.5px solid var(--line);transform:rotate(var(--tilt, 0deg));display:flex;align-items:center;justify-content:center;font-family:var(--f-mono);font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase}
+.athumb{overflow:hidden}
+.athumb img{width:100%;height:100%;object-fit:cover;display:block}
+.card .cover{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;border:1.5px solid currentColor}
+.photo{display:flex;flex-wrap:wrap;gap:12px 16px;align-items:center}
+.photo-prev{width:140px;aspect-ratio:1/1;border:1.5px dashed var(--line);display:flex;align-items:center;justify-content:center;overflow:hidden;background:var(--card)}
+.photo-prev img{width:100%;height:100%;object-fit:cover;display:block}
+.photo-btns{display:flex;flex-wrap:wrap;gap:8px}
+#i-foto:focus-visible + label{outline:3px solid var(--accent);outline-offset:3px}
+dialog.drop{outline:3px dashed var(--accent);outline-offset:-8px}
 .tone-paper{background:var(--paper-2);color:var(--ink)}
 .tone-albero{background:var(--albero);color:var(--on-albero)}
 .athumb.is-idea{border-style:dashed;background:transparent;color:var(--ink)}
@@ -271,6 +280,7 @@ function clean(r){
     tags: (Array.isArray(r.tags) ? r.tags : []).map(x => String(x).trim().slice(0, 30)).filter(Boolean).slice(0, 12),
     estado: r.estado === 'visto' ? 'visto' : 'por ver',
     fijado: !!r.fijado,
+    img: typeof r.img === 'string' && r.img.length < 400000 && /^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+\/=]+$/.test(r.img) ? r.img : '',
     fecha: /^\d{4}-\d{2}-\d{2}$/.test(r.fecha) ? r.fecha : today(),
     mod: Number(r.mod) || Date.now()
   };
@@ -280,6 +290,10 @@ function clean(r){
 const LS = 'recursos-v1';
 let items = [];
 let readOnly = false;
+function saveLocal(){
+  try { localStorage.setItem(LS, JSON.stringify({items})); }
+  catch (e) { try { localStorage.setItem(LS, JSON.stringify({items: items.map(i => Object.assign({}, i, {img: ''}))})); } catch (e2) {} }
+}
 try { const raw = JSON.parse(localStorage.getItem(LS) || 'null'); if (raw && Array.isArray(raw.items)) items = raw.items.map(clean).filter(Boolean); } catch (e) {}
 
 
@@ -367,7 +381,7 @@ function fail(err){
   noteSave(); toast('No se ha podido guardar en Firebase.');
 }
 function persist(){
-  try { localStorage.setItem(LS, JSON.stringify({items})); } catch (e) {}
+  saveLocal();
   if (!colRef) return;
   const now = new Map(items.map(i => [i.id, JSON.stringify(i)]));
   const ops = [];
@@ -397,7 +411,7 @@ function attach(){
       items = [...remote, ...items.filter(i => !ids.has(i.id))];
       markMigrated('recursos'); persist();
     } else items = remote;
-    try { localStorage.setItem(LS, JSON.stringify({items})); } catch (e) {}
+    saveLocal();
     noteSave(); refresh();
   }, () => { Cloud.st.error = 'permiso'; noteSave(); });
 }
@@ -444,7 +458,7 @@ function actsOf(i){
 function rowHtml(i){
   const title = i.url ? `<a href="${esc(i.url)}" target="_blank" rel="noopener noreferrer">${esc(i.t)} ↗</a>` : esc(i.t);
   return `<article class="arow${i.estado === 'visto' ? ' visto' : ''}" data-row="${esc(i.id)}">
-    <div class="athumb ${i.origen === 'mio' ? 'tone-albero' : 'tone-paper'}${i.url ? '' : ' is-idea'}" style="--tilt:${i.estado === 'por ver' ? -3 : 0}deg" aria-hidden="true">${TIPOS[i.tipo][1]}</div>
+    <div class="athumb ${i.origen === 'mio' ? 'tone-albero' : 'tone-paper'}${i.url || i.img ? '' : ' is-idea'}" style="--tilt:${i.estado === 'por ver' ? -3 : 0}deg" aria-hidden="true">${i.img ? `<img src="${i.img}" alt="" loading="lazy">` : TIPOS[i.tipo][1]}</div>
     <div style="min-width:0">
       <h3>${title}</h3>
       ${chipsOf(i)}
@@ -458,6 +472,7 @@ function cardHtml(i, n){
   const title = i.url ? `<a href="${esc(i.url)}" target="_blank" rel="noopener noreferrer">${esc(i.t)} ↗</a>` : esc(i.t);
   const tilt = i.estado === 'por ver' ? [-1.6, 1.2, -.8, 1.8][n % 4] : 0;
   return `<article class="card${i.origen === 'mio' ? ' mio' : ''}${i.url ? '' : ' sinurl'}" style="--tilt:${tilt}deg">
+    ${i.img ? `<img class="cover" src="${i.img}" alt="" loading="lazy">` : ''}
     <p class="meta">${TIPOS[i.tipo][0]} · ${i.origen === 'mio' ? 'mío' : 'de otros'} · ${i.estado}</p>
     <h3>${title}</h3>
     ${i.nota ? `<p class="nota">${esc(i.nota.length > 140 ? i.nota.slice(0, 140) + '…' : i.nota)}</p>` : ''}
@@ -569,7 +584,30 @@ window.addEventListener('hashchange', () => {
 });
 
 /* ===== Formulario de guardar/editar ===== */
-let editId = null;
+let editId = null, formImg = '';
+async function shrink(file){
+  const url = URL.createObjectURL(file);
+  try {
+    const img = await new Promise((ok, ko) => { const im = new Image(); im.onload = () => ok(im); im.onerror = ko; im.src = url; });
+    const k = Math.min(1, 480 / Math.max(img.naturalWidth, img.naturalHeight));
+    const c = document.createElement('canvas');
+    c.width = Math.max(1, Math.round(img.naturalWidth * k)); c.height = Math.max(1, Math.round(img.naturalHeight * k));
+    const x = c.getContext('2d'); x.fillStyle = '#fff'; x.fillRect(0, 0, c.width, c.height); x.drawImage(img, 0, 0, c.width, c.height);
+    for (const q of [0.74, 0.6, 0.5]){ const d = c.toDataURL('image/jpeg', q); if (d.length < 150000) return d; }
+    return c.toDataURL('image/jpeg', 0.4);
+  } finally { URL.revokeObjectURL(url); }
+}
+function renderPhoto(){
+  const p = $('#ph-prev'); if (!p) return;
+  p.innerHTML = formImg ? `<img src="${formImg}" alt="Foto del recurso">` : '<span class="mono muted">Sin foto</span>';
+  $('#ph-del').hidden = !formImg;
+}
+async function setPhoto(file){
+  const err = $('#i-err');
+  if (!file || !/^image\//.test(file.type)){ err.textContent = 'Ese archivo no es una imagen.'; err.hidden = false; return; }
+  try { formImg = await shrink(file); err.hidden = true; renderPhoto(); }
+  catch (e) { err.textContent = 'No he podido leer esa imagen. Prueba con otra.'; err.hidden = false; }
+}
 function openForm(id, preset){
   editId = id || null;
   const old = id ? items.find(i => i.id === id) : null;
@@ -579,6 +617,10 @@ function openForm(id, preset){
     <h2 id="dlg-title">${old ? 'Editar' : 'Guardar'}</h2>
     <div class="field"><label for="i-url">Enlace (opcional)</label><input type="text" id="i-url" inputmode="url" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="https://…" value="${esc(d.url)}"></div>
     <div class="field"><label for="i-t">Título</label><input type="text" id="i-t" autocomplete="off" maxlength="200" placeholder="Si lo dejas vacío uso el nombre de la web" value="${esc(d.t)}"></div>
+    <div class="field"><span class="lbl" style="font-family:var(--f-mono);font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-2)">Foto (opcional)</span>
+      <div class="photo"><div class="photo-prev" id="ph-prev"></div>
+        <div class="photo-btns"><input type="file" id="i-foto" class="sr-only" accept="image/*"><label for="i-foto" class="btn-ghost btn-sm" style="cursor:pointer">Elegir o hacer foto</label><button type="button" class="btn-ghost btn-sm" id="ph-del">Quitar foto</button></div></div>
+      <p class="mono muted" style="font-size:12px">También puedes pegar una imagen (Ctrl+V) o arrastrarla aquí.</p></div>
     <div class="field"><label for="i-nota">Nota</label><textarea id="i-nota" maxlength="2000" placeholder="Por qué lo guardo, qué dice, qué quiero hacer con ello">${esc(d.nota)}</textarea></div>
     <fieldset class="field"><legend class="lbl">Disciplinas</legend><div class="pickers">${DKEYS.map(k => `<label class="pk"><input type="checkbox" name="disc" value="${k}" ${d.disc.includes(k) ? 'checked' : ''}><span>${DISC[k].label}</span></label>`).join('')}</div></fieldset>
     <fieldset class="field"><legend class="lbl">Origen</legend><div class="pickers">
@@ -593,8 +635,9 @@ function openForm(id, preset){
     <div class="dlg-acts"><div>${old ? '<button type="button" class="btn-ghost" id="i-del">Borrar</button>' : ''}</div>
       <div><button type="button" class="btn-ghost" data-dclose>Cancelar</button><button type="submit" class="btn btn-accent">Guardar</button></div></div>
   </form>`;
+  formImg = old ? old.img : '';
+  renderPhoto();
   if (!dlg.open) dlg.showModal();
-  if (!old && preset && preset.disc && preset.disc.length === 1) {}
   const u = $('#i-url'); if (u && !old) u.focus();
 }
 function saveForm(){
@@ -613,6 +656,7 @@ function saveForm(){
     tags: $('#i-tags').value.split(',').map(s => s.replace(/^#/, '').trim()),
     estado: $('#i-visto').checked ? 'visto' : 'por ver',
     fijado: $('#i-fijado').checked,
+    img: formImg,
     fecha: old ? old.fecha : today(),
     mod: Date.now()
   });
@@ -631,12 +675,14 @@ function deleteItem(){
 }
 
 /* ===== Copia de seguridad ===== */
+function backupJson(withImg){ return JSON.stringify({recursos:1, items: withImg ? items : items.map(i => Object.assign({}, i, {img: ''}))}, null, 1); }
 function openBackup(){
   const dlg = $('#dlg');
   dlg.innerHTML = `<div class="dlg"><h2 id="dlg-title">Copia de seguridad</h2>
     <p class="muted">Copia este texto para guardarlo, o pega aquí una copia anterior y pulsa Importar. Importar suma lo que falta y no borra nada.</p>
     <label class="sr-only" for="b-json">Contenido de la copia</label>
-    <textarea class="json" id="b-json" spellcheck="false">${esc(JSON.stringify({recursos:1, items}, null, 1))}</textarea>
+    <label class="check" for="b-img"><input type="checkbox" id="b-img"> Incluir las fotos (el texto será mucho más largo)</label>
+    <textarea class="json" id="b-json" spellcheck="false">${esc(backupJson(false))}</textarea>
     <p class="err" id="b-err" role="alert" hidden></p>
     <div class="dlg-acts"><div><button type="button" class="btn-ghost" id="b-copy">Copiar</button><button type="button" class="btn" id="b-import" ${readOnly ? 'disabled' : ''}>Importar lo pegado</button></div>
       <div><button type="button" class="btn-ghost" data-dclose>Cerrar</button></div></div></div>`;
@@ -686,6 +732,7 @@ document.addEventListener('click', e => {
     else { delArmed = false; deleteItem(); }
     return;
   }
+  if (t.closest('#ph-del')){ formImg = ''; renderPhoto(); return; }
   if (t.closest('#b-copy')){
     const ta = $('#b-json');
     ta.select();
@@ -708,6 +755,23 @@ document.addEventListener('click', e => {
     refresh(); persist();
     const again = document.querySelector(`[data-act="${act}"][data-id="${CSS.escape(id)}"]`); if (again) again.focus();
   }
+});
+document.addEventListener('change', e => {
+  if (e.target.id === 'i-foto'){ const f = e.target.files && e.target.files[0]; if (f) setPhoto(f); e.target.value = ''; }
+  if (e.target.id === 'b-img') $('#b-json').value = backupJson(e.target.checked);
+});
+document.addEventListener('paste', e => {
+  if (!$('#f-item')) return;
+  const f = [...((e.clipboardData && e.clipboardData.files) || [])].find(x => /^image\//.test(x.type));
+  if (f){ e.preventDefault(); setPhoto(f); }
+});
+document.addEventListener('dragover', e => { if ($('#f-item') && e.dataTransfer && [...e.dataTransfer.types].includes('Files')){ e.preventDefault(); $('#dlg').classList.add('drop'); } });
+document.addEventListener('dragleave', e => { if (e.target.id === 'dlg') $('#dlg').classList.remove('drop'); });
+document.addEventListener('drop', e => {
+  if (!$('#f-item')) return;
+  $('#dlg').classList.remove('drop');
+  const f = e.dataTransfer && [...e.dataTransfer.files].find(x => /^image\//.test(x.type));
+  if (f){ e.preventDefault(); setPhoto(f); }
 });
 document.addEventListener('input', e => { if (e.target.id === 'q'){ F.q = e.target.value; updateLista(); } });
 document.addEventListener('change', e => {
