@@ -1,0 +1,724 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}[hidden]{display:none!important}</style>
+<script src="firebase-config.js"></script>
+<title>Recursos</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: la misma mesa de papeles que la web, pero para guardar lo que encuentro. Dorado = mío, papel = de otros, torcido = por ver. */
+:root{
+  --paper:#F3F1EC; --paper-2:#E8E4DB; --card:#FFFFFF;
+  --ink:#16161A; --ink-2:#4A4A50; --line:#16161A;
+  --accent:#2340D9; --on-accent:#FFFFFF;
+  --albero:#F2A33A; --on-albero:#16161A;
+  --inv-bg:#16161A; --inv-fg:#F3F1EC; --inv-muted:#C9C5BC;
+  --f-display:'Bricolage Grotesque', 'Arial Narrow', system-ui, sans-serif;
+  --f-mono:'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#131316; --paper-2:#1C1C21; --card:#202026;
+    --ink:#ECE9E2; --ink-2:#A9A59C; --line:#CFCBC2;
+    --accent:#8C9BFF; --on-accent:#0E0F1A;
+    --albero:#F2A33A; --on-albero:#16161A;
+    --inv-bg:#ECE9E2; --inv-fg:#16161A; --inv-muted:#4A4A50;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#131316; --paper-2:#1C1C21; --card:#202026;
+  --ink:#ECE9E2; --ink-2:#A9A59C; --line:#CFCBC2;
+  --accent:#8C9BFF; --on-accent:#0E0F1A;
+  --albero:#F2A33A; --on-albero:#16161A;
+  --inv-bg:#ECE9E2; --inv-fg:#16161A; --inv-muted:#4A4A50;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-display);font-size:17px;line-height:1.5}
+a{color:inherit}
+a:hover{color:var(--accent)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+h1,h2,h3{text-wrap:balance;margin:0}
+p{margin:0}
+button,input,select,textarea{font:inherit;color:inherit}
+.wrap{max-width:1200px;margin:0 auto;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
+@media (min-width:700px){.wrap{padding-left:max(32px, env(safe-area-inset-left, 0px));padding-right:max(32px, env(safe-area-inset-right, 0px))}}
+.mono{font-family:var(--f-mono);font-size:13px;letter-spacing:.04em}
+.eyebrow{font-family:var(--f-mono);font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+.muted{color:var(--ink-2)}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* Cabecera */
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top, 0px);z-index:25;background:var(--paper)}
+.top{position:sticky;top:env(safe-area-inset-top, 0px);z-index:20;background:var(--paper);border-bottom:1.5px solid var(--line)}
+.top-in{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:4px 24px;padding-block:10px}
+.logo{font-weight:800;font-size:22px;letter-spacing:-.02em;text-decoration:none;padding:10px 0;order:1}
+.logo b{color:var(--accent);font-weight:800}
+.nav-links{order:2;display:flex;flex-wrap:wrap;align-items:center;gap:0 22px;font-size:17px;font-weight:500}
+.nav-links a{text-decoration:none;padding:12px 0}
+.nav-links a[aria-current="page"]{font-weight:700;text-decoration:underline;text-decoration-color:var(--accent);text-decoration-thickness:3px;text-underline-offset:8px}
+.nav-links a.pill{padding:9px 16px;border:1.5px solid var(--line);border-radius:999px}
+.top-acts{order:3;display:flex;gap:8px;align-items:center}
+.menu-btn{display:none;min-height:44px;padding:0 16px;border:1.5px solid var(--line);background:transparent;font-weight:600;border-radius:999px;cursor:pointer}
+@media (max-width:1010px){
+  .logo{order:1}.top-acts{order:2}.nav-links{order:3}
+  .menu-btn{display:inline-flex;align-items:center}
+  .nav-links{display:none;width:100%;flex-direction:column;align-items:flex-start;padding-bottom:12px}
+  .nav-links.open{display:flex}
+  .nav-links a.pill{margin-top:8px}
+}
+
+/* Botones */
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 18px;background:var(--ink);color:var(--paper);text-decoration:none;font-weight:600;font-size:16px;border:1.5px solid var(--ink);cursor:pointer}
+.btn:hover{color:var(--paper);background:var(--accent);border-color:var(--accent)}
+.btn-ghost{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 16px;border:1.5px solid var(--line);text-decoration:none;font-weight:600;font-size:16px;background:transparent;color:var(--ink);cursor:pointer}
+.btn-ghost:hover{border-color:var(--accent);color:var(--accent)}
+.btn-accent{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+.btn-accent:hover{color:var(--on-accent);background:var(--ink);border-color:var(--ink)}
+.btn-sm{min-height:44px;padding:0 14px;font-size:15px}
+.btn[disabled],.btn-ghost[disabled]{opacity:.4;cursor:default}
+
+/* Portadas */
+.hero{padding-block:48px 36px;display:flex;flex-wrap:wrap;gap:24px 64px;align-items:flex-end}
+.hero > div{flex:1 1 480px;min-width:0}
+.hero > .hero-side{flex:1 1 340px}
+.display{font-size:clamp(40px, 6vw, 84px);line-height:.95;font-weight:750;letter-spacing:-.045em;margin-top:14px;overflow-wrap:anywhere}
+.display-xl{font-size:clamp(46px, 7.4vw, 112px);line-height:.92;letter-spacing:-.05em}
+.lede{font-size:20px;line-height:1.5;max-width:60ch}
+.legend{margin-top:14px;font-family:var(--f-mono);font-size:13px;color:var(--ink-2);max-width:60ch}
+
+.band{padding-block:0 64px}
+.band-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:6px 24px;border-top:1.5px solid var(--line);padding-top:18px;margin-bottom:28px}
+.band-head h2{font-size:clamp(28px, 3.4vw, 40px);font-weight:700;letter-spacing:-.03em}
+
+/* Marcador */
+.score{display:grid;grid-template-columns:repeat(4, minmax(0, 1fr));gap:8px}
+@media (max-width:560px){.score{grid-template-columns:repeat(2, minmax(0, 1fr))}}
+.tile{min-height:92px;display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start;gap:8px;padding:12px 14px;border:1.5px solid var(--line);background:var(--paper);color:var(--ink);cursor:pointer;text-align:left}
+.tile b{font-size:44px;font-weight:750;line-height:.9;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.tile span{font-family:var(--f-mono);font-size:12px;text-transform:uppercase;letter-spacing:.05em}
+.tile:hover{border-color:var(--accent)}
+.tile.t-mio{background:var(--albero);color:var(--on-albero)}
+.tile.t-ver{border-style:dashed}
+
+/* Tarjetas de fijados */
+.cards{display:grid;grid-template-columns:repeat(auto-fill, minmax(min(100%, 270px), 1fr));gap:28px;align-items:start}
+.card{display:flex;flex-direction:column;gap:8px;border:1.5px solid var(--line);padding:18px;background:var(--card);color:var(--ink);transform:rotate(var(--tilt, 0deg));min-width:0}
+.card.mio{background:var(--albero);color:var(--on-albero)}
+.card.sinurl{border-style:dashed}
+.card h3{font-size:25px;font-weight:700;letter-spacing:-.02em;line-height:1.08;overflow-wrap:anywhere}
+.card h3 a{text-decoration:none}
+.card .meta{font-family:var(--f-mono);font-size:12px;letter-spacing:.04em;text-transform:uppercase;opacity:.8}
+.card p.nota{font-size:15.5px;line-height:1.45;overflow-wrap:anywhere}
+.card .acts{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.card.mio .btn-ghost{border-color:var(--on-albero);color:var(--on-albero)}
+
+/* Puertas a las disciplinas */
+.doors{list-style:none;margin:0;padding:0;border-top:1.5px solid var(--line)}
+.doors li{border-bottom:1.5px solid var(--line)}
+.doors a{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 32px;padding-block:20px;text-decoration:none}
+.doors .name{flex:1 1 280px;font-size:clamp(34px, 4.4vw, 58px);font-weight:700;letter-spacing:-.035em;line-height:1}
+.doors .what{flex:1 1 340px;font-size:17px;line-height:1.4;color:var(--ink-2)}
+.doors .count{flex:0 0 130px;font-family:var(--f-mono);font-size:13px;color:var(--accent);text-align:right;font-variant-numeric:tabular-nums}
+@media (max-width:700px){.doors .count{text-align:left;flex-basis:100%}}
+
+/* Buscador y filtros */
+.arch-tools{display:flex;flex-direction:column;gap:14px;border:1.5px solid var(--line);background:var(--card);padding:18px;margin-bottom:32px}
+.arch-q{width:100%;min-height:52px;padding:0 16px;border:1.5px solid var(--line);background:var(--paper);color:var(--ink);font-size:18px}
+.fgroup{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.fgroup > span{flex:0 0 100px;font-family:var(--f-mono);font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-2)}
+@media (max-width:520px){.fgroup > span{flex-basis:100%}}
+.fbtn{min-height:44px;padding:0 16px;border:1.5px solid var(--line);border-radius:999px;background:transparent;font-weight:500;font-size:16px;cursor:pointer}
+.fbtn[aria-pressed="true"]{background:var(--ink);color:var(--paper);font-weight:600}
+.fsel{min-height:44px;padding:0 12px;border:1.5px solid var(--line);background:var(--paper);cursor:pointer;max-width:100%}
+.arch-foot{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px 24px;border-top:1.5px dashed var(--line);padding-top:12px}
+.check{display:flex;align-items:center;gap:10px;min-height:44px;cursor:pointer}
+.check input{width:20px;height:20px;accent-color:var(--accent)}
+
+/* Lista */
+.arch-year{font-size:26px;font-weight:700;letter-spacing:-.02em;padding-block:26px 8px}
+.arow{display:grid;grid-template-columns:64px minmax(0, 1fr);gap:16px;align-items:start;padding-block:16px;border-bottom:1.5px solid var(--line)}
+.arch-year + .arow,.arow:first-child{border-top:1.5px solid var(--line)}
+@media (max-width:520px){.arow{grid-template-columns:48px minmax(0, 1fr);gap:12px}}
+.athumb{aspect-ratio:1/1;border:1.5px solid var(--line);transform:rotate(var(--tilt, 0deg));display:flex;align-items:center;justify-content:center;font-family:var(--f-mono);font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase}
+.tone-paper{background:var(--paper-2);color:var(--ink)}
+.tone-albero{background:var(--albero);color:var(--on-albero)}
+.athumb.is-idea{border-style:dashed;background:transparent;color:var(--ink)}
+.arow h3{font-size:22px;font-weight:700;letter-spacing:-.015em;line-height:1.15;overflow-wrap:anywhere}
+.arow h3 a{text-decoration:none}
+.arow h3 a:hover{color:var(--accent)}
+.arow.visto h3{color:var(--ink-2)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.chip{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.04em;text-transform:uppercase;padding:3px 8px;border:1.5px solid currentColor;line-height:1.4}
+.chip-dash{border-style:dashed}
+.chip-mio{background:var(--albero);color:var(--on-albero);border-color:var(--line)}
+.chip-fij{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+.sub{font-family:var(--f-mono);font-size:12.5px;color:var(--ink-2);margin-top:6px;overflow-wrap:anywhere}
+.nota{margin-top:8px;max-width:68ch;white-space:pre-wrap;overflow-wrap:anywhere;font-size:16px}
+.row-acts{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.empty{font-size:19px;color:var(--ink-2);padding-block:24px;max-width:60ch}
+.empty .btn,.empty .btn-ghost{margin-top:14px;margin-right:8px}
+
+/* Diálogos */
+dialog{border:1.5px solid var(--line);background:var(--paper);color:var(--ink);padding:0;width:min(600px, calc(100% - 24px));max-height:calc(100% - 24px)}
+dialog::backdrop{background:rgba(0,0,0,.45)}
+.dlg{padding:22px;display:flex;flex-direction:column;gap:14px}
+.dlg h2{font-size:30px;font-weight:700;letter-spacing:-.03em;line-height:1}
+.field{display:flex;flex-direction:column;gap:6px}
+.field > label,.field > legend,legend.lbl{font-family:var(--f-mono);font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-2);padding:0}
+.field input[type=text],.field textarea,.field select{min-height:48px;padding:10px 12px;border:1.5px solid var(--line);background:var(--card);width:100%;font-size:17px}
+.field textarea{min-height:96px;resize:vertical}
+fieldset{border:0;margin:0;padding:0;min-width:0}
+.pickers{display:flex;flex-wrap:wrap;gap:8px}
+.pk{position:relative}
+.pk input{position:absolute;opacity:0;inset:0;width:100%;height:100%;margin:0;cursor:pointer}
+.pk span{display:inline-flex;align-items:center;min-height:44px;padding:0 16px;border:1.5px solid var(--line);border-radius:999px;font-weight:500;font-size:16px}
+.pk input:checked + span{background:var(--ink);color:var(--paper);font-weight:600}
+.pk input:focus-visible + span{outline:3px solid var(--accent);outline-offset:3px}
+.dlg-acts{display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;align-items:center;border-top:1.5px dashed var(--line);padding-top:14px}
+.dlg-acts div{display:flex;flex-wrap:wrap;gap:8px}
+.err{background:var(--albero);color:var(--on-albero);padding:8px 12px;font-weight:600}
+.json{width:100%;min-height:200px;font-family:var(--f-mono);font-size:12.5px;padding:10px;border:1.5px solid var(--line);background:var(--card)}
+
+/* Pie */
+.foot{background:var(--inv-bg);color:var(--inv-fg)}
+.foot-in{display:flex;flex-wrap:wrap;justify-content:space-between;gap:24px 48px;padding-block:44px 36px}
+.foot .logo{font-size:24px;padding:0}
+.foot .logo b{color:var(--albero)}
+.foot .btn-ghost{border-color:var(--inv-fg);color:var(--inv-fg)}
+.foot .btn-ghost:hover{color:var(--albero);border-color:var(--albero)}
+.foot p{color:var(--inv-muted)}
+
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom, 0px));transform:translateX(-50%);z-index:40;background:var(--ink);color:var(--paper);padding:12px 18px;font-weight:600;max-width:calc(100% - 32px);display:flex;align-items:center;gap:14px}
+.toast button{min-height:36px;padding:0 12px;border:1.5px solid currentColor;background:transparent;color:inherit;font-weight:700;cursor:pointer}
+@media (prefers-reduced-motion: reduce){*{transition:none !important}}
+
+.field input[type=email],.field input[type=password]{min-height:48px;padding:10px 12px;border:1.5px solid var(--line);background:var(--card);width:100%;font-size:17px}
+.dlg-acts.login{justify-content:flex-end}
+#foot-note .btn-ghost{margin-left:8px}
+</style>
+
+<header class="top">
+  <div class="wrap top-in">
+    <a class="logo" href="#inicio">ángel<b>·</b>recursos</a>
+    <div class="top-acts">
+      <button class="btn btn-accent" type="button" id="add-btn">+ Guardar</button>
+      <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="nav-links">Menú</button>
+    </div>
+    <nav class="nav-links" id="nav-links" aria-label="Principal"></nav>
+  </div>
+</header>
+
+<main id="main"></main>
+
+<footer class="foot">
+  <div class="wrap foot-in">
+    <div>
+      <p class="logo" style="color:var(--inv-fg)">ángel<b>·</b>recursos</p>
+      <p style="margin-top:8px" id="foot-note">Solo para mí.</p>
+    </div>
+    <div>
+      <button class="btn-ghost" type="button" id="backup-btn">Copia de seguridad</button>
+    </div>
+  </div>
+</footer>
+
+<dialog id="dlg" aria-labelledby="dlg-title"></dialog>
+<dialog id="login-dlg" aria-labelledby="login-title"></dialog>
+<div id="toast-root" aria-live="polite"></div>
+
+<script>
+/* ===== Las disciplinas: las mismas de la web, más Idiomas y Apps ===== */
+const DISC = {
+  escritura:{label:'Escritura', what:'Lecturas, técnicas, referentes y textos que me sirven para escribir.'},
+  juegos:{label:'Juegos', what:'Mecánicas, motores, juegos de otros y lo que me enseña a diseñar.'},
+  musica:{label:'Música', what:'Canciones, acordes, partituras, ritmos y vídeos para tocar.'},
+  taller:{label:'Taller', what:'Dibujo, objetos, materiales y cosas para hacer con las manos.'},
+  tierra:{label:'Tierra', what:'Permacultura, plantas, huerto y diseño del lugar.'},
+  idiomas:{label:'Idiomas', what:'Material para enseñar y aprender español y otras lenguas.'},
+  apps:{label:'Apps y web', what:'Herramientas, código, trucos y servicios para construir cosas.'}
+};
+const TIPOS = {articulo:['Artículo','ART'], video:['Vídeo','VID'], audio:['Audio','AUD'], herramienta:['Herramienta','HER'], libro:['Libro','LIB'], imagen:['Imagen','IMG'], apunte:['Apunte','NOT'], otro:['Otro','OTR']};
+const DKEYS = Object.keys(DISC);
+
+/* ===== Utilidades ===== */
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const norm = s => String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+const today = () => new Date().toLocaleDateString('sv-SE');
+const plural = (n, a, b) => n + ' ' + (n === 1 ? a : b);
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+const $ = s => document.querySelector(s);
+function cleanUrl(u){
+  u = String(u || '').trim(); if (!u) return '';
+  if (!/^[a-z][a-z0-9+.-]*:/i.test(u)) u = 'https://' + u;
+  try { const x = new URL(u); return /^https?:$/.test(x.protocol) ? x.href : ''; } catch (e) { return ''; }
+}
+const hostOf = u => { try { return new URL(u).hostname.replace(/^www\./, ''); } catch (e) { return ''; } };
+function clean(r){
+  if (!r || typeof r !== 'object') return null;
+  const url = cleanUrl(r.url);
+  let t = String(r.t || '').trim().slice(0, 200);
+  if (!t && url) t = hostOf(url);
+  if (!t) return null;
+  return {
+    id: typeof r.id === 'string' && r.id.replace(/[^A-Za-z0-9_-]/g, '_') ? r.id.replace(/[^A-Za-z0-9_-]/g, '_').slice(0, 40) : uid(),
+    t, url,
+    nota: String(r.nota || '').trim().slice(0, 2000),
+    origen: r.origen === 'mio' ? 'mio' : 'otros',
+    autor: String(r.autor || '').trim().slice(0, 80),
+    disc: (Array.isArray(r.disc) ? r.disc : []).filter(d => DKEYS.includes(d)),
+    tipo: TIPOS[r.tipo] ? r.tipo : (url ? 'articulo' : 'apunte'),
+    tags: (Array.isArray(r.tags) ? r.tags : []).map(x => String(x).trim().slice(0, 30)).filter(Boolean).slice(0, 12),
+    estado: r.estado === 'visto' ? 'visto' : 'por ver',
+    fijado: !!r.fijado,
+    fecha: /^\d{4}-\d{2}-\d{2}$/.test(r.fecha) ? r.fecha : today(),
+    mod: Number(r.mod) || Date.now()
+  };
+}
+
+/* ===== Datos: base de datos del artefacto si existe, si no este navegador ===== */
+const LS = 'recursos-v1';
+let items = [];
+let readOnly = false;
+try { const raw = JSON.parse(localStorage.getItem(LS) || 'null'); if (raw && Array.isArray(raw.items)) items = raw.items.map(clean).filter(Boolean); } catch (e) {}
+
+
+/* ===== Firebase (proyecto «mis-cosas»): sesión por correo y Firestore ===== */
+const Cloud = (() => {
+  const cfg = window.MIS_COSAS_FIREBASE || {};
+  const has = !!(cfg.apiKey && cfg.projectId);
+  const st = {estado: has ? 'cargando' : 'sin-config', user: null, fs: null, error: ''};
+  const subs = [];
+  const emit = () => subs.forEach(f => { try { f(st); } catch (e) { console.error(e); } });
+  const load = src => new Promise((ok, ko) => { const s = document.createElement('script'); s.src = src; s.onload = ok; s.onerror = () => ko(new Error('No carga ' + src)); document.head.appendChild(s); });
+  async function start(){
+    if (!has){ emit(); return; }
+    try {
+      const B = 'https://www.gstatic.com/firebasejs/10.12.2/';
+      await load(B + 'firebase-app-compat.js');
+      await Promise.all([load(B + 'firebase-auth-compat.js'), load(B + 'firebase-firestore-compat.js')]);
+      firebase.initializeApp(cfg);
+      st.fs = firebase.firestore();
+      try { await st.fs.enablePersistence({synchronizeTabs: true}); } catch (e) {}
+      firebase.auth().onAuthStateChanged(u => { st.user = u || null; st.estado = u ? 'conectado' : 'sin-sesion'; st.error = ''; emit(); });
+    } catch (e) { st.estado = 'sin-red'; emit(); }
+  }
+  const mine = () => st.fs.collection('users').doc(st.user.uid);
+  return {st, start, onChange: f => { subs.push(f); }, emit,
+    signIn: (m, p) => firebase.auth().signInWithEmailAndPassword(m, p),
+    signOut: () => firebase.auth().signOut(),
+    col: n => mine().collection(n),
+    doc: (c, d) => mine().collection(c).doc(d),
+    del: () => firebase.firestore.FieldValue.delete()};
+})();
+function syncLine(){
+  const s = Cloud.st; let msg, btn = '';
+  if (s.error === 'permiso') msg = 'Firebase no deja leer o guardar. Revisa las reglas de Firestore.';
+  else if (s.error === 'guardar') msg = 'No se ha podido guardar en Firebase. Se guardó en este navegador.';
+  else if (s.estado === 'conectado'){ msg = 'Sincronizado con tu cuenta (' + esc(s.user.email || 'sin correo') + '). Lo ves igual en cualquier dispositivo.'; btn = 'out'; }
+  else if (s.estado === 'sin-sesion'){ msg = 'Sin iniciar sesión: se guarda solo en este navegador.'; btn = 'in'; }
+  else if (s.estado === 'cargando') msg = 'Conectando con Firebase…';
+  else if (s.estado === 'sin-red') msg = 'No he podido cargar Firebase. Se guarda en este navegador.';
+  else msg = 'Sin conectar: falta rellenar firebase-config.js. Se guarda en este navegador.';
+  return msg + (btn ? ` <button class="btn-ghost btn-sm" type="button" data-sync="${btn}">${btn === 'in' ? 'Entrar' : 'Salir'}</button>` : '');
+}
+const AUTH_ERR = {'auth/invalid-credential':'Correo o contraseña incorrectos.', 'auth/wrong-password':'Correo o contraseña incorrectos.', 'auth/user-not-found':'Correo o contraseña incorrectos.', 'auth/invalid-email':'Ese correo no es válido.', 'auth/too-many-requests':'Demasiados intentos. Espera un rato.', 'auth/network-request-failed':'Sin conexión. Inténtalo de nuevo.'};
+function openLogin(){
+  const d = document.getElementById('login-dlg');
+  d.innerHTML = `<form class="dlg" id="login-form" novalidate>
+    <h2 id="login-title">Entrar</h2>
+    <p class="muted">La misma cuenta que usas en tus otras herramientas.</p>
+    <div class="field"><label for="lg-mail">Correo</label><input type="email" id="lg-mail" autocomplete="username" autocapitalize="off" spellcheck="false"></div>
+    <div class="field"><label for="lg-pass">Contraseña</label><input type="password" id="lg-pass" autocomplete="current-password"></div>
+    <p class="err" id="lg-err" role="alert" hidden></p>
+    <div class="dlg-acts"><button type="button" class="btn-ghost" data-lclose>Cancelar</button><button type="submit" class="btn" id="lg-ok">Entrar</button></div>
+  </form>`;
+  if (!d.open) d.showModal();
+  document.getElementById('lg-mail').focus();
+}
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-sync]');
+  if (b){ if (b.dataset.sync === 'in') openLogin(); else Cloud.signOut().then(() => { if (typeof onSignedOut === 'function') onSignedOut(); }); return; }
+  if (e.target.closest('[data-lclose]')){ document.getElementById('login-dlg').close(); return; }
+  if (e.target.id === 'login-dlg') e.target.close();
+});
+document.addEventListener('submit', async e => {
+  if (e.target.id !== 'login-form') return;
+  e.preventDefault();
+  const err = document.getElementById('lg-err'), ok = document.getElementById('lg-ok');
+  const mail = document.getElementById('lg-mail').value.trim(), pass = document.getElementById('lg-pass').value;
+  if (!mail || !pass){ err.textContent = 'Escribe el correo y la contraseña.'; err.hidden = false; return; }
+  ok.disabled = true; err.hidden = true;
+  try { await Cloud.signIn(mail, pass); document.getElementById('login-dlg').close(); }
+  catch (x) { err.textContent = AUTH_ERR[x && x.code] || 'No he podido entrar. Revisa los datos.'; err.hidden = false; ok.disabled = false; }
+});
+const clone = o => JSON.parse(JSON.stringify(o));
+const migKey = (tool) => 'mis-cosas-mig-' + tool + '-' + Cloud.st.user.uid;
+const wasMigrated = tool => { try { return !!localStorage.getItem(migKey(tool)); } catch (e) { return true; } };
+const markMigrated = tool => { try { localStorage.setItem(migKey(tool), '1'); } catch (e) {} };
+
+/* ===== Recursos en la nube: un documento por recurso (users/<uid>/recursos/<id>) ===== */
+let colRef = null, unsub = null, known = new Map(), attachedUid = undefined;
+function noteSave(){
+  $('#foot-note').innerHTML = syncLine();
+}
+function fail(err){
+  Cloud.st.error = err && err.code === 'permission-denied' ? 'permiso' : 'guardar';
+  noteSave(); toast('No se ha podido guardar en Firebase.');
+}
+function persist(){
+  try { localStorage.setItem(LS, JSON.stringify({items})); } catch (e) {}
+  if (!colRef) return;
+  const now = new Map(items.map(i => [i.id, JSON.stringify(i)]));
+  const ops = [];
+  now.forEach((j, id) => { if (known.get(id) !== j) ops.push(['set', id]); });
+  known.forEach((_, id) => { if (!now.has(id)) ops.push(['del', id]); });
+  if (!ops.length) return;
+  known = now;
+  const byId = new Map(items.map(i => [i.id, i]));
+  for (let k = 0; k < ops.length; k += 400){
+    const b = Cloud.st.fs.batch();
+    ops.slice(k, k + 400).forEach(([op, id]) => { if (op === 'set') b.set(colRef.doc(id), byId.get(id)); else b.delete(colRef.doc(id)); });
+    b.commit().catch(fail);
+  }
+}
+function attach(){
+  const uid = Cloud.st.user ? Cloud.st.user.uid : null;
+  if (attachedUid === uid) return; attachedUid = uid;
+  if (unsub){ unsub(); unsub = null; } colRef = null; known = new Map();
+  if (!uid) return;
+  colRef = Cloud.col('recursos');
+  unsub = colRef.onSnapshot(snap => {
+    Cloud.st.error = '';
+    const remote = snap.docs.map(d => clean(Object.assign({}, d.data(), {id: d.id}))).filter(Boolean);
+    known = new Map(remote.map(i => [i.id, JSON.stringify(i)]));
+    if (!wasMigrated('recursos')){
+      const ids = new Set(remote.map(i => i.id));
+      items = [...remote, ...items.filter(i => !ids.has(i.id))];
+      markMigrated('recursos'); persist();
+    } else items = remote;
+    try { localStorage.setItem(LS, JSON.stringify({items})); } catch (e) {}
+    noteSave(); refresh();
+  }, () => { Cloud.st.error = 'permiso'; noteSave(); });
+}
+function onSignedOut(){ items = []; try { localStorage.removeItem(LS); } catch (e) {} refresh(); }
+Cloud.onChange(() => { noteSave(); attach(); });
+
+/* ===== Filtros ===== */
+const F0 = () => ({q:'', origen:'todo', estado:'todo', tipo:'todo', disc:'todo', fijados:false});
+let F = F0(), keepF = false;
+function filtered(){
+  const q = norm(F.q.trim());
+  return items.filter(i =>
+    (F.origen === 'todo' || i.origen === F.origen) &&
+    (F.estado === 'todo' || i.estado === F.estado) &&
+    (F.tipo === 'todo' || i.tipo === F.tipo) &&
+    (F.disc === 'todo' || (F.disc === 'sin' ? !i.disc.length : i.disc.includes(F.disc))) &&
+    (!F.fijados || i.fijado) &&
+    (!q || norm([i.t, i.nota, i.autor, hostOf(i.url), i.tags.join(' ')].join(' ')).includes(q))
+  );
+}
+const monthLabel = k => { const [y, m] = k.split('-'); const s = new Date(+y, +m - 1, 1).toLocaleDateString('es-ES', {month:'long', year:'numeric'}); return s.charAt(0).toUpperCase() + s.slice(1); };
+const byFecha = (a, b) => (b.fecha.localeCompare(a.fecha)) || (b.mod - a.mod);
+
+/* ===== Piezas ===== */
+function chipsOf(i){
+  return `<div class="chips">${i.origen === 'mio' ? '<span class="chip chip-mio">Mío</span>' : '<span class="chip">De otros</span>'}<span class="chip">${TIPOS[i.tipo][0]}</span><span class="chip${i.estado === 'por ver' ? ' chip-dash' : ''}">${i.estado}</span>${i.fijado ? '<span class="chip chip-fij">Fijado</span>' : ''}${i.tags.map(t => `<span class="chip chip-dash">#${esc(t)}</span>`).join('')}</div>`;
+}
+function subOf(i){
+  const bits = [];
+  if (i.url) bits.push(esc(hostOf(i.url)));
+  if (i.autor) bits.push((i.origen === 'mio' ? 'con ' : 'de ') + esc(i.autor));
+  if (i.disc.length) bits.push(i.disc.map(d => DISC[d].label).join(', '));
+  bits.push(i.fecha);
+  return bits.join(' · ');
+}
+function actsOf(i){
+  if (readOnly) return '';
+  return `<div class="row-acts">
+    <button type="button" class="btn-ghost btn-sm" data-act="fijar" data-id="${esc(i.id)}" aria-pressed="${i.fijado}">${i.fijado ? '★ Quitar fijado' : '☆ Fijar'}</button>
+    <button type="button" class="btn-ghost btn-sm" data-act="visto" data-id="${esc(i.id)}">${i.estado === 'visto' ? 'Volver a «por ver»' : '✓ Ya lo he visto'}</button>
+    <button type="button" class="btn-ghost btn-sm" data-act="editar" data-id="${esc(i.id)}">Editar</button>
+  </div>`;
+}
+function rowHtml(i){
+  const title = i.url ? `<a href="${esc(i.url)}" target="_blank" rel="noopener noreferrer">${esc(i.t)} ↗</a>` : esc(i.t);
+  return `<article class="arow${i.estado === 'visto' ? ' visto' : ''}" data-row="${esc(i.id)}">
+    <div class="athumb ${i.origen === 'mio' ? 'tone-albero' : 'tone-paper'}${i.url ? '' : ' is-idea'}" style="--tilt:${i.estado === 'por ver' ? -3 : 0}deg" aria-hidden="true">${TIPOS[i.tipo][1]}</div>
+    <div style="min-width:0">
+      <h3>${title}</h3>
+      ${chipsOf(i)}
+      <p class="sub">${subOf(i)}</p>
+      ${i.nota ? `<p class="nota">${esc(i.nota)}</p>` : ''}
+      ${actsOf(i)}
+    </div>
+  </article>`;
+}
+function cardHtml(i, n){
+  const title = i.url ? `<a href="${esc(i.url)}" target="_blank" rel="noopener noreferrer">${esc(i.t)} ↗</a>` : esc(i.t);
+  const tilt = i.estado === 'por ver' ? [-1.6, 1.2, -.8, 1.8][n % 4] : 0;
+  return `<article class="card${i.origen === 'mio' ? ' mio' : ''}${i.url ? '' : ' sinurl'}" style="--tilt:${tilt}deg">
+    <p class="meta">${TIPOS[i.tipo][0]} · ${i.origen === 'mio' ? 'mío' : 'de otros'} · ${i.estado}</p>
+    <h3>${title}</h3>
+    ${i.nota ? `<p class="nota">${esc(i.nota.length > 140 ? i.nota.slice(0, 140) + '…' : i.nota)}</p>` : ''}
+    <p class="meta">${i.disc.length ? i.disc.map(d => DISC[d].label).join(', ') : esc(hostOf(i.url) || 'sin clasificar')}</p>
+    ${readOnly ? '' : `<div class="acts"><button type="button" class="btn-ghost btn-sm" data-act="fijar" data-id="${esc(i.id)}">★ Quitar</button><button type="button" class="btn-ghost btn-sm" data-act="editar" data-id="${esc(i.id)}">Editar</button></div>`}
+  </article>`;
+}
+
+/* ===== Páginas ===== */
+function emptyHtml(){
+  return `<div class="empty"><p>Todavía no hay nada guardado. Pulsa «+ Guardar» y pega el primer enlace, o apunta una idea sin enlace.</p>
+    ${readOnly ? '' : '<button class="btn btn-accent" type="button" data-open-add>+ Guardar el primero</button>'}
+    <button class="btn-ghost" type="button" id="empty-backup">Importar una copia</button></div>`;
+}
+function vInicio(){
+  const n = items.length;
+  const porVer = items.filter(i => i.estado === 'por ver').length;
+  const mios = items.filter(i => i.origen === 'mio').length;
+  const fij = items.filter(i => i.fijado).sort(byFecha);
+  const ult = [...items].sort(byFecha).slice(0, 6);
+  const sin = items.filter(i => !i.disc.length).length;
+  return `<section class="wrap hero">
+    <div><p class="eyebrow">Recursos</p><h1 class="display display-xl">Lo que voy guardando.</h1></div>
+    <div class="hero-side"><p class="lede">Mío y de otros, en un sitio al que llego desde cualquier aparato.</p>
+      <p class="legend">Dorado = mío · papel = de otros · torcido = por ver · recto = visto · punteado = apunte sin enlace</p></div>
+  </section>
+  <section class="wrap band" aria-label="Resumen">
+    <div class="score">
+      <button class="tile" type="button" data-preset='{}'><b>${n}</b><span>Guardados</span></button>
+      <button class="tile t-ver" type="button" data-preset='{"estado":"por ver"}'><b>${porVer}</b><span>Por ver</span></button>
+      <button class="tile t-mio" type="button" data-preset='{"origen":"mio"}'><b>${mios}</b><span>Míos</span></button>
+      <button class="tile" type="button" data-preset='{"fijados":true}'><b>${fij.length}</b><span>Fijados</span></button>
+    </div>
+  </section>
+  ${n ? '' : `<section class="wrap band">${emptyHtml()}</section>`}
+  ${fij.length ? `<section class="wrap band"><div class="band-head"><h2>Fijados</h2><span class="mono muted">lo que quiero tener a mano</span></div>
+    <div class="cards">${fij.slice(0, 8).map(cardHtml).join('')}</div></section>` : ''}
+  ${ult.length ? `<section class="wrap band"><div class="band-head"><h2>Lo último</h2><a class="mono" href="#todo">Ver todo →</a></div>
+    <div>${ult.map(rowHtml).join('')}</div></section>` : ''}
+  <section class="wrap band"><div class="band-head"><h2>Por disciplinas</h2>${sin ? `<button class="btn-ghost btn-sm" type="button" data-preset='{"disc":"sin"}'>${plural(sin, 'sin clasificar', 'sin clasificar')}</button>` : ''}</div>
+    <ul class="doors">${DKEYS.map(k => { const c = items.filter(i => i.disc.includes(k)).length; return `<li><a href="#${k}"><span class="name">${DISC[k].label}</span><span class="what">${DISC[k].what}</span><span class="count">${plural(c, 'recurso', 'recursos')}</span></a></li>`; }).join('')}</ul>
+  </section>`;
+}
+function toolbar(withDisc){
+  return `<div class="arch-tools">
+    <label class="sr-only" for="q">Buscar</label>
+    <input class="arch-q" id="q" type="search" placeholder="Buscar por título, nota, etiqueta, autor o web" value="${esc(F.q)}" autocomplete="off">
+    <div class="fgroup" role="group" aria-label="Origen"><span>Origen</span>${[['todo','Todo'],['mio','Míos'],['otros','De otros']].map(([v, l]) => `<button type="button" class="fbtn" data-fk="origen" data-fv="${v}" aria-pressed="${F.origen === v}">${l}</button>`).join('')}</div>
+    <div class="fgroup" role="group" aria-label="Estado"><span>Estado</span>${[['todo','Todo'],['por ver','Por ver'],['visto','Vistos']].map(([v, l]) => `<button type="button" class="fbtn" data-fk="estado" data-fv="${v}" aria-pressed="${F.estado === v}">${l}</button>`).join('')}</div>
+    ${withDisc ? `<div class="fgroup" role="group" aria-label="Disciplina"><span>Disciplina</span>${[['todo','Todas'], ...DKEYS.map(k => [k, DISC[k].label]), ['sin','Sin clasificar']].map(([v, l]) => `<button type="button" class="fbtn" data-fk="disc" data-fv="${v}" aria-pressed="${F.disc === v}">${l}</button>`).join('')}</div>` : ''}
+    <div class="fgroup"><span><label for="f-tipo">Tipo</label></span><select class="fsel" id="f-tipo"><option value="todo">Todos</option>${Object.entries(TIPOS).map(([k, v]) => `<option value="${k}" ${F.tipo === k ? 'selected' : ''}>${v[0]}</option>`).join('')}</select></div>
+    <div class="arch-foot"><label class="check" for="f-fij"><input type="checkbox" id="f-fij" ${F.fijados ? 'checked' : ''}> Solo fijados</label><button class="btn-ghost btn-sm" type="button" data-clear>Quitar filtros</button></div>
+  </div><div id="lista" aria-live="polite"></div>`;
+}
+function listaHtml(){
+  const list = filtered().sort(byFecha);
+  const n = list.length;
+  let h = `<p class="mono muted" style="margin-bottom:6px">${plural(n, 'resultado', 'resultados')}</p>`;
+  if (!items.length) return h + emptyHtml();
+  if (!n) return h + `<p class="empty">No hay nada que cumpla todo eso. <button class="btn-ghost btn-sm" type="button" data-clear>Quitar filtros</button></p>`;
+  const route = currentRoute();
+  const groups = {};
+  const fij = route === 'todo' ? [] : list.filter(i => i.fijado);
+  const rest = route === 'todo' ? list : list.filter(i => !i.fijado);
+  if (fij.length) h += `<h2 class="arch-year">Fijados</h2>` + fij.map(rowHtml).join('');
+  rest.forEach(i => { (groups[i.fecha.slice(0, 7)] = groups[i.fecha.slice(0, 7)] || []).push(i); });
+  Object.keys(groups).sort().reverse().forEach(k => { h += `<h2 class="arch-year">${monthLabel(k)}</h2>` + groups[k].map(rowHtml).join(''); });
+  return h;
+}
+function vDisc(k){
+  const c = items.filter(i => i.disc.includes(k)).length;
+  return `<section class="wrap hero"><div><p class="eyebrow">Recursos</p><h1 class="display">${DISC[k].label}</h1></div>
+    <div class="hero-side"><p class="lede">${DISC[k].what}</p><p class="legend">${plural(c, 'recurso guardado', 'recursos guardados')}</p></div></section>
+    <section class="wrap band">${toolbar(false)}</section>`;
+}
+function vTodo(){
+  return `<section class="wrap hero"><div><p class="eyebrow">Todo</p><h1 class="display">Todo lo guardado.</h1></div>
+    <div class="hero-side"><p class="lede">De lo más reciente a lo más antiguo. Busca o filtra.</p></div></section>
+    <section class="wrap band">${toolbar(true)}</section>`;
+}
+
+/* ===== Rutas ===== */
+const currentRoute = () => (location.hash || '#inicio').slice(1) || 'inicio';
+function renderNav(r){
+  $('#nav-links').innerHTML = DKEYS.map(k => `<a href="#${k}"${r === k ? ' aria-current="page"' : ''}>${DISC[k].label}</a>`).join('') + `<a class="pill" href="#todo"${r === 'todo' ? ' aria-current="page"' : ''}>Todo</a>`;
+}
+function updateLista(){
+  const box = $('#lista'); if (box) box.innerHTML = listaHtml();
+  document.querySelectorAll('[data-fk]').forEach(b => b.setAttribute('aria-pressed', String(F[b.dataset.fk] === b.dataset.fv)));
+  const fi = $('#f-fij'); if (fi) fi.checked = F.fijados;
+  const ft = $('#f-tipo'); if (ft) ft.value = F.tipo;
+  const q = $('#q'); if (q && q.value !== F.q) q.value = F.q;
+}
+function render(moveFocus){
+  let r = currentRoute();
+  if (r !== 'inicio' && r !== 'todo' && !DISC[r]) r = 'inicio';
+  renderNav(r);
+  const main = $('#main');
+  main.innerHTML = r === 'inicio' ? vInicio() : r === 'todo' ? vTodo() : vDisc(r);
+  if (r !== 'inicio') updateLista();
+  if (moveFocus){ window.scrollTo(0, 0); const h = main.querySelector('h1'); if (h){ h.tabIndex = -1; h.focus({preventScroll:true}); } }
+}
+function refresh(){ currentRoute() === 'inicio' || !$('#lista') ? render(false) : updateLista(); }
+window.addEventListener('hashchange', () => {
+  const r = currentRoute();
+  if (keepF) keepF = false; else { F = F0(); if (DISC[r]) F.disc = r; }
+  $('#nav-links').classList.remove('open'); $('#menu-btn').setAttribute('aria-expanded', 'false');
+  render(true);
+});
+
+/* ===== Formulario de guardar/editar ===== */
+let editId = null;
+function openForm(id, preset){
+  editId = id || null;
+  const old = id ? items.find(i => i.id === id) : null;
+  const d = old || Object.assign({t:'', url:'', nota:'', origen:'otros', autor:'', disc:[], tipo:'', tags:[], estado:'por ver', fijado:false}, preset || {});
+  const dlg = $('#dlg');
+  dlg.innerHTML = `<form class="dlg" id="f-item" novalidate>
+    <h2 id="dlg-title">${old ? 'Editar' : 'Guardar'}</h2>
+    <div class="field"><label for="i-url">Enlace (opcional)</label><input type="text" id="i-url" inputmode="url" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="https://…" value="${esc(d.url)}"></div>
+    <div class="field"><label for="i-t">Título</label><input type="text" id="i-t" autocomplete="off" maxlength="200" placeholder="Si lo dejas vacío uso el nombre de la web" value="${esc(d.t)}"></div>
+    <div class="field"><label for="i-nota">Nota</label><textarea id="i-nota" maxlength="2000" placeholder="Por qué lo guardo, qué dice, qué quiero hacer con ello">${esc(d.nota)}</textarea></div>
+    <fieldset class="field"><legend class="lbl">Disciplinas</legend><div class="pickers">${DKEYS.map(k => `<label class="pk"><input type="checkbox" name="disc" value="${k}" ${d.disc.includes(k) ? 'checked' : ''}><span>${DISC[k].label}</span></label>`).join('')}</div></fieldset>
+    <fieldset class="field"><legend class="lbl">Origen</legend><div class="pickers">
+      <label class="pk"><input type="radio" name="origen" value="otros" ${d.origen === 'otros' ? 'checked' : ''}><span>De otros</span></label>
+      <label class="pk"><input type="radio" name="origen" value="mio" ${d.origen === 'mio' ? 'checked' : ''}><span>Mío</span></label></div></fieldset>
+    <div class="field"><label for="i-autor">Autor o fuente (opcional)</label><input type="text" id="i-autor" autocomplete="off" maxlength="80" value="${esc(d.autor)}"></div>
+    <div class="field"><label for="i-tipo">Tipo</label><select id="i-tipo"><option value="">Automático (artículo si tiene enlace, apunte si no)</option>${Object.entries(TIPOS).map(([k, v]) => `<option value="${k}" ${d.tipo === k ? 'selected' : ''}>${v[0]}</option>`).join('')}</select></div>
+    <div class="field"><label for="i-tags">Etiquetas, separadas por comas</label><input type="text" id="i-tags" autocomplete="off" placeholder="acordes, humor, referencia" value="${esc(d.tags.join(', '))}"></div>
+    <label class="check" for="i-visto"><input type="checkbox" id="i-visto" ${d.estado === 'visto' ? 'checked' : ''}> Ya lo he visto</label>
+    <label class="check" for="i-fijado"><input type="checkbox" id="i-fijado" ${d.fijado ? 'checked' : ''}> Fijar en la portada</label>
+    <p class="err" id="i-err" role="alert" hidden></p>
+    <div class="dlg-acts"><div>${old ? '<button type="button" class="btn-ghost" id="i-del">Borrar</button>' : ''}</div>
+      <div><button type="button" class="btn-ghost" data-dclose>Cancelar</button><button type="submit" class="btn btn-accent">Guardar</button></div></div>
+  </form>`;
+  if (!dlg.open) dlg.showModal();
+  if (!old && preset && preset.disc && preset.disc.length === 1) {}
+  const u = $('#i-url'); if (u && !old) u.focus();
+}
+function saveForm(){
+  const url = $('#i-url').value.trim();
+  const err = $('#i-err');
+  const show = m => { err.textContent = m; err.hidden = false; };
+  if (url && !cleanUrl(url)) return show('El enlace no parece válido. Debe empezar por http:// o https://, o ser una dirección como ejemplo.com.');
+  const old = editId ? items.find(i => i.id === editId) : null;
+  const rec = clean({
+    id: old ? old.id : undefined,
+    t: $('#i-t').value, url, nota: $('#i-nota').value,
+    origen: (document.querySelector('input[name=origen]:checked') || {}).value,
+    autor: $('#i-autor').value,
+    disc: [...document.querySelectorAll('input[name=disc]:checked')].map(x => x.value),
+    tipo: $('#i-tipo').value,
+    tags: $('#i-tags').value.split(',').map(s => s.replace(/^#/, '').trim()),
+    estado: $('#i-visto').checked ? 'visto' : 'por ver',
+    fijado: $('#i-fijado').checked,
+    fecha: old ? old.fecha : today(),
+    mod: Date.now()
+  });
+  if (!rec) return show('Pon un título o un enlace.');
+  if (old) items = items.map(i => i.id === old.id ? rec : i); else items = [rec, ...items];
+  $('#dlg').close();
+  refresh(); persist();
+  toast(old ? 'Cambios guardados' : 'Guardado');
+}
+let delArmed = false, delTimer = null, lastDeleted = null;
+function deleteItem(){
+  const i = items.find(x => x.id === editId); if (!i) return;
+  items = items.filter(x => x.id !== editId); lastDeleted = i;
+  $('#dlg').close(); refresh(); persist();
+  toast('Borrado: ' + i.t.slice(0, 40), 'Deshacer', () => { if (lastDeleted){ items = [lastDeleted, ...items]; lastDeleted = null; refresh(); persist(); } });
+}
+
+/* ===== Copia de seguridad ===== */
+function openBackup(){
+  const dlg = $('#dlg');
+  dlg.innerHTML = `<div class="dlg"><h2 id="dlg-title">Copia de seguridad</h2>
+    <p class="muted">Copia este texto para guardarlo, o pega aquí una copia anterior y pulsa Importar. Importar suma lo que falta y no borra nada.</p>
+    <label class="sr-only" for="b-json">Contenido de la copia</label>
+    <textarea class="json" id="b-json" spellcheck="false">${esc(JSON.stringify({recursos:1, items}, null, 1))}</textarea>
+    <p class="err" id="b-err" role="alert" hidden></p>
+    <div class="dlg-acts"><div><button type="button" class="btn-ghost" id="b-copy">Copiar</button><button type="button" class="btn" id="b-import" ${readOnly ? 'disabled' : ''}>Importar lo pegado</button></div>
+      <div><button type="button" class="btn-ghost" data-dclose>Cerrar</button></div></div></div>`;
+  if (!dlg.open) dlg.showModal();
+}
+function importJson(){
+  const err = $('#b-err');
+  try {
+    const raw = JSON.parse($('#b-json').value);
+    const list = Array.isArray(raw) ? raw : raw.items;
+    if (!Array.isArray(list)) throw new Error('x');
+    let added = 0, updated = 0;
+    list.map(clean).filter(Boolean).forEach(r => {
+      const k = items.findIndex(i => i.id === r.id);
+      if (k < 0){ items.push(r); added++; }
+      else if (r.mod > items[k].mod){ items[k] = r; updated++; }
+    });
+    $('#dlg').close(); render(false); persist();
+    toast(`Importados ${added} nuevos y ${updated} actualizados`);
+  } catch (e) { err.textContent = 'No he podido leer ese texto. Pega la copia completa, tal como se copió.'; err.hidden = false; }
+}
+
+/* ===== Aviso ===== */
+let toastTimer = null;
+function toast(msg, label, fn){
+  const r = $('#toast-root');
+  r.innerHTML = `<div class="toast"><span>${esc(msg)}</span>${fn ? `<button type="button" id="toast-act">${esc(label)}</button>` : ''}</div>`;
+  if (fn) $('#toast-act').addEventListener('click', () => { fn(); r.innerHTML = ''; });
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => { r.innerHTML = ''; }, fn ? 7000 : 2600);
+}
+
+/* ===== Eventos ===== */
+document.addEventListener('click', e => {
+  const t = e.target;
+  if (t.closest('#add-btn') || t.closest('[data-open-add]')){
+    const preset = {}; const r = currentRoute();
+    if (DISC[r]) preset.disc = [r];
+    openForm(null, preset); return;
+  }
+  if (t.closest('#backup-btn') || t.closest('#empty-backup')){ openBackup(); return; }
+  if (t.closest('#menu-btn')){ const n = $('#nav-links'); const o = n.classList.toggle('open'); $('#menu-btn').setAttribute('aria-expanded', String(o)); return; }
+  if (t.closest('[data-dclose]')){ $('#dlg').close(); return; }
+  if (t.id === 'dlg'){ $('#dlg').close(); return; }
+  if (t.closest('#i-del')){
+    const b = $('#i-del');
+    if (!delArmed){ delArmed = true; b.textContent = '¿Seguro? Pulsa otra vez'; clearTimeout(delTimer); delTimer = setTimeout(() => { delArmed = false; if (b.isConnected) b.textContent = 'Borrar'; }, 4000); }
+    else { delArmed = false; deleteItem(); }
+    return;
+  }
+  if (t.closest('#b-copy')){
+    const ta = $('#b-json');
+    ta.select();
+    (navigator.clipboard && navigator.clipboard.writeText ? navigator.clipboard.writeText(ta.value) : Promise.reject()).then(() => toast('Copiado'), () => toast('Selecciónalo y cópialo a mano'));
+    return;
+  }
+  if (t.closest('#b-import')){ importJson(); return; }
+  const pr = t.closest('[data-preset]');
+  if (pr){ F = Object.assign(F0(), JSON.parse(pr.dataset.preset)); keepF = location.hash !== '#todo'; if (location.hash === '#todo') render(true); else location.hash = '#todo'; return; }
+  const fb = t.closest('[data-fk]');
+  if (fb){ F[fb.dataset.fk] = fb.dataset.fv; updateLista(); return; }
+  if (t.closest('[data-clear]')){ const d = DISC[currentRoute()] ? currentRoute() : 'todo'; F = F0(); F.disc = d; updateLista(); return; }
+  const a = t.closest('[data-act]');
+  if (a && !readOnly){
+    const id = a.dataset.id, act = a.dataset.act, i = items.find(x => x.id === id); if (!i) return;
+    if (act === 'editar'){ openForm(id); return; }
+    if (act === 'fijar') i.fijado = !i.fijado;
+    if (act === 'visto') i.estado = i.estado === 'visto' ? 'por ver' : 'visto';
+    i.mod = Date.now();
+    refresh(); persist();
+    const again = document.querySelector(`[data-act="${act}"][data-id="${CSS.escape(id)}"]`); if (again) again.focus();
+  }
+});
+document.addEventListener('input', e => { if (e.target.id === 'q'){ F.q = e.target.value; updateLista(); } });
+document.addEventListener('change', e => {
+  if (e.target.id === 'f-tipo'){ F.tipo = e.target.value; updateLista(); }
+  if (e.target.id === 'f-fij'){ F.fijados = e.target.checked; updateLista(); }
+});
+document.addEventListener('submit', e => { if (e.target.id === 'f-item'){ e.preventDefault(); saveForm(); } });
+
+/* ===== Arranque ===== */
+if (DISC[currentRoute()]) F.disc = currentRoute();
+noteSave(); render(false); Cloud.start();
+</script>
+
+</body></html>
