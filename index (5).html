@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Lab</title>
+<meta name="description" content="Pruebas, herramientas e ideas a medio hacer.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Figtree:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+:root{
+  --bg:#ECEFF2; --surface:#F8F9FB; --ink:#151B26; --muted:#586374; --line:#CCD3DC; --line-strong:#9AA4B2;
+  --accent:#2445D6; --accent-ink:#fff;
+  --s-idea:#B38F00; --s-prueba:#B0447E; --s-funciona:#13836F;
+  --f-display:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;
+  --f-body:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root{ --bg:#0F131B; --surface:#171C27; --ink:#E7EBF2; --muted:#9AA5B6; --line:#262D3B; --line-strong:#3A4457;
+    --accent:#7C93FF; --accent-ink:#0F131B; --s-idea:#E0B93A; --s-prueba:#E879B0; --s-funciona:#3FC7AC; }
+}
+*{box-sizing:border-box;}
+html{-webkit-text-size-adjust:100%;}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55;}
+[hidden]{display:none!important;}
+.wrap{max-width:900px;margin:0 auto;padding:max(28px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) 72px max(16px,env(safe-area-inset-left,0px));}
+header{display:flex;flex-direction:column;gap:6px;padding-bottom:20px;border-bottom:1px solid var(--line);}
+.eyebrow{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
+h1{font-family:var(--f-display);text-transform:uppercase;font-weight:900;font-size:clamp(3.4rem,14vw,6.5rem);line-height:.9;margin:0;letter-spacing:.005em;}
+h1 span{color:var(--accent);}
+.lede{margin:4px 0 0;color:var(--muted);max-width:52ch;}
+.tools{display:flex;flex-direction:column;gap:12px;padding:18px 0;}
+.search{width:100%;font:inherit;font-size:16px;padding:11px 14px;border:1px solid var(--line-strong);border-radius:8px;background:var(--surface);color:var(--ink);}
+.search:focus{outline:2px solid var(--accent);outline-offset:1px;}
+.chips{display:flex;flex-wrap:wrap;gap:6px;}
+.chip{font:inherit;font-size:.84rem;font-weight:600;padding:6px 12px;border-radius:999px;border:1px solid var(--line-strong);background:transparent;color:var(--ink);cursor:pointer;}
+.chip:hover{border-color:var(--accent);}
+.chip[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);}
+.chips.tags .chip{font-family:var(--f-mono);font-weight:500;font-size:.78rem;}
+.count{font-family:var(--f-mono);font-size:.78rem;color:var(--muted);}
+ul.list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px;}
+.card{background:var(--surface);border:1px solid var(--line);border-top:3px solid var(--c,var(--line-strong));border-radius:8px;display:flex;flex-direction:column;min-height:150px;min-width:0;}
+.card a.main,.card .main{display:flex;flex-direction:column;gap:8px;padding:14px 14px 10px;color:inherit;text-decoration:none;flex:1;}
+.card a.main:hover h2{text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:2px;}
+.card a.main:focus-visible{outline:2px solid var(--accent);outline-offset:-2px;border-radius:6px;}
+.card h2{font-family:var(--f-display);text-transform:uppercase;font-weight:800;font-size:1.6rem;line-height:1;margin:0;text-wrap:balance;overflow-wrap:anywhere;}
+.card p{margin:0;font-size:.93rem;color:var(--muted);}
+.meta{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;padding:0 14px 12px;font-family:var(--f-mono);font-size:.72rem;color:var(--muted);}
+.badge{display:inline-flex;align-items:center;gap:6px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--c);}
+.badge::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--c);}
+.tag{color:var(--muted);}
+.arrow{margin-left:auto;font-size:1rem;color:var(--ink);}
+.empty{padding:36px 0;text-align:center;color:var(--muted);}
+footer{margin-top:40px;padding-top:18px;border-top:1px dashed var(--line-strong);font-size:.88rem;color:var(--muted);}
+footer code{font-family:var(--f-mono);font-size:.82rem;background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:1px 5px;}
+@media (max-width:520px){ ul.list{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <span class="eyebrow">Pruebas · herramientas · ideas a medio hacer</span>
+    <h1>Lab<span>.</span></h1>
+    <p class="lede">Aquí vive lo que estoy probando. Algunas cosas funcionan, otras son solo una idea con un enlace.</p>
+  </header>
+
+  <section class="tools" aria-label="Buscar y filtrar">
+    <input class="search" id="q" type="search" placeholder="Buscar…" aria-label="Buscar" autocomplete="off">
+    <div class="chips" id="estados" role="group" aria-label="Estado"></div>
+    <div class="chips tags" id="tags" role="group" aria-label="Etiquetas"></div>
+    <span class="count" id="count" role="status"></span>
+  </section>
+
+  <ul class="list" id="list"></ul>
+  <p class="empty" id="empty" hidden>No hay nada con ese filtro.</p>
+
+  <footer>
+    Para añadir algo, abre <code>index.html</code>, busca <code>const ITEMS</code> y copia un bloque. Lo más nuevo, arriba.
+  </footer>
+</div>
+
+<script>
+/* ============================================================
+   TUS ENLACES. Copia un bloque, cámbialo y pégalo arriba del todo.
+   - titulo:   nombre que se ve en la tarjeta
+   - desc:     una línea de qué es
+   - url:      enlace relativo (ej. "percu.html") o completo. Sin url = tarjeta de idea sin enlace.
+   - estado:   "idea" | "prueba" | "funciona"
+   - etiquetas:lista corta, en minúsculas
+   - fecha:    "AAAA-MM-DD" (opcional)
+   ============================================================ */
+const ITEMS = [
+  /* Plantilla para copiar:
+  {
+    titulo: "Nombre",
+    desc: "Qué es, en una línea.",
+    url: "pagina.html",
+    estado: "prueba",
+    etiquetas: ["música"],
+    fecha: "2026-10-23"
+  },
+  */
+  {
+    titulo: "Kit de carne y hueso",
+    desc: "Un ritmo, muchas formas de tocarlo: body percussion, batería, cajón, pen tap, beatbox y productor.",
+    url: "percu.html",
+    estado: "funciona",
+    etiquetas: ["música", "ritmo", "herramienta"],
+    fecha: "2026-10-23"
+  }
+];
+
+const ESTADOS = {
+  idea:     { nombre: "Idea",     color: "var(--s-idea)" },
+  prueba:   { nombre: "Prueba",   color: "var(--s-prueba)" },
+  funciona: { nombre: "Funciona", color: "var(--s-funciona)" }
+};
+
+const $ = s => document.querySelector(s);
+let fEstado = "", fTag = "";
+
+const norm = s => String(s || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+const fechaTxt = f => {
+  if (!f) return "";
+  const d = new Date(f + "T12:00:00"); if (isNaN(d)) return "";
+  return d.toLocaleDateString("es-ES", { day: "numeric", month: "short", year: "numeric" });
+};
+
+function chip(label, pressed, onclick) {
+  const b = document.createElement("button");
+  b.type = "button"; b.className = "chip"; b.textContent = label; b.setAttribute("aria-pressed", pressed);
+  b.onclick = onclick; return b;
+}
+
+function paintFilters() {
+  const est = $("#estados"); est.innerHTML = "";
+  est.appendChild(chip("Todo", !fEstado, () => { fEstado = ""; render(); }));
+  Object.keys(ESTADOS).forEach(k => {
+    if (!ITEMS.some(i => i.estado === k)) return;
+    est.appendChild(chip(ESTADOS[k].nombre, fEstado === k, () => { fEstado = fEstado === k ? "" : k; render(); }));
+  });
+  const tags = [...new Set(ITEMS.flatMap(i => i.etiquetas || []))].sort((a, b) => a.localeCompare(b, "es"));
+  const tg = $("#tags"); tg.innerHTML = ""; tg.hidden = tags.length < 2;
+  tags.forEach(t => tg.appendChild(chip("#" + t, fTag === t, () => { fTag = fTag === t ? "" : t; render(); })));
+}
+
+function card(i) {
+  const li = document.createElement("li"); li.className = "card";
+  const e = ESTADOS[i.estado] || ESTADOS.idea; li.style.setProperty("--c", e.color);
+  const main = document.createElement(i.url ? "a" : "div"); main.className = "main";
+  if (i.url) { main.href = i.url; if (/^https?:/i.test(i.url)) { main.target = "_blank"; main.rel = "noopener"; } }
+  const h = document.createElement("h2"); h.textContent = i.titulo || "Sin título"; main.appendChild(h);
+  if (i.desc) { const p = document.createElement("p"); p.textContent = i.desc; main.appendChild(p); }
+  li.appendChild(main);
+  const meta = document.createElement("div"); meta.className = "meta";
+  const b = document.createElement("span"); b.className = "badge"; b.textContent = e.nombre; meta.appendChild(b);
+  (i.etiquetas || []).forEach(t => { const s = document.createElement("span"); s.className = "tag"; s.textContent = "#" + t; meta.appendChild(s); });
+  const f = fechaTxt(i.fecha); if (f) { const s = document.createElement("span"); s.textContent = f; meta.appendChild(s); }
+  if (i.url) { const a = document.createElement("span"); a.className = "arrow"; a.setAttribute("aria-hidden", "true"); a.textContent = "↗"; meta.appendChild(a); }
+  li.appendChild(meta);
+  return li;
+}
+
+function render() {
+  paintFilters();
+  const q = norm($("#q").value.trim());
+  const rows = ITEMS.filter(i =>
+    (!fEstado || i.estado === fEstado) &&
+    (!fTag || (i.etiquetas || []).includes(fTag)) &&
+    (!q || norm([i.titulo, i.desc, (i.etiquetas || []).join(" ")].join(" ")).includes(q)));
+  const list = $("#list"); list.innerHTML = "";
+  rows.forEach(i => list.appendChild(card(i)));
+  $("#empty").hidden = rows.length > 0;
+  $("#count").textContent = rows.length + (rows.length === 1 ? " cosa" : " cosas") + (rows.length !== ITEMS.length ? " de " + ITEMS.length : "");
+}
+$("#q").oninput = render;
+render();
+</script>
+</body>
+</html>
